@@ -1,0 +1,141 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Space Grotesk', 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+.font-display {
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+}
+
+.font-sans {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+@layer base {
+  :root {
+    --font-display: 'Space Grotesk', 'Inter', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    /* Semantic Theme CSS Variables - High-Contrast Light Theme */
+    --bg-page: #ffffff;
+    --bg-card: #ffffff;
+    --bg-subtle: #f5f5f5;
+    --bg-input: #f8f9fa;
+    --text-main: #000000;
+    --text-muted: #525252;
+    --border-subtle: #e5e5e5;
+    --border-strong: #a3a3a3;
+    --accent-contrast: #000000;
+    --accent-contrast-text: #ffffff;
+    --grid-dot-color: #cccccc;
+  }
+
+  html.dark, [data-theme="dark"] {
+    /* High-Contrast Dark Theme CSS Variables */
+    --bg-page: #0a0a0c;
+    --bg-card: #121216;
+    --bg-subtle: #18181f;
+    --bg-input: #1f1f28;
+    --text-main: #f8fafc;
+    --text-muted: #a1a1aa;
+    --border-subtle: #27272a;
+    --border-strong: #52525b;
+    --accent-contrast: #ffffff;
+    --accent-contrast-text: #000000;
+    --grid-dot-color: #2e2e38;
+  }
+
+  body {
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+}
+
+/* Blueprint Grid Background */
+.blueprint-bg {
+  background-image: radial-gradient(var(--grid-dot-color) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 20%, #000 40%, transparent 85%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 20%, #000 40%, transparent 85%);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Hero Background Pattern */
+.hero-pattern {
+  background-image: radial-gradient(var(--grid-dot-color) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Marquee Scroll Animations */
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 26s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-banner-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-marquee-banner {
+  display: flex;
+  width: max-content;
+  animation: marquee-banner-scroll 24s linear infinite;
+}
+
+.animate-marquee-banner:hover {
+  animation-play-state: paused;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #a0a0a0;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #707070;
+}

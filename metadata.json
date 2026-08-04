@@ -1,0 +1,6 @@
+{
+  "name": "StudioAdsPro",
+  "description": "High-Performance Software, AI Agents & Digital Experiences — StudioAdsPro designs, builds, and scales custom software, AI agents, mobile apps, and digital marketing for ambitious businesses.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
