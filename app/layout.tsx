@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
-// @ts-expect-error - Next.js/TypeScript setup may not include global CSS declarations in this environment
+// @ts-expect-error
 import './globals.css';
 import { ThemeProvider } from '@/components/ThemeProvider';
 
 export const metadata: Metadata = {
-  title: 'StudioAdsPro — High-Performance Software, AI Agents & Digital Experiences',
+  title: 'StudioAdsPro',
   description: 'StudioAdsPro designs, builds, and scales custom software, AI agents, mobile apps, and digital marketing for ambitious businesses.',
   keywords: ['software development', 'AI agents', 'mobile apps', 'digital marketing', 'full stack engineering', 'Next.js', 'StudioAdsPro'],
   authors: [{ name: 'StudioAdsPro Team' }],

@@ -1,53 +1,78 @@
-import { Github } from "lucide-react";
+'use client';
+
+import { useState } from 'react';
+import { Github, Check } from "lucide-react";
 
 export default function Footer() {
+  const [email, setEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email.trim()) {
+      setSubscribed(true);
+      setTimeout(() => setSubscribed(false), 4000);
+      setEmail('');
+    }
+  };
+
   return (
-    <footer className="bg-[#f5f5f4] border-t border-black pt-16">
+    <footer className="bg-[#f5f5f4] dark:bg-neutral-950 border-t border-black dark:border-neutral-800 pt-16 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Top Row */}
-       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 items-start">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 items-start">
           {/* Brand Column */}
           <div>
             <div className="flex items-center gap-2.5 mb-5">
-              <div className="w-[34px] h-[34px] rounded-lg bg-black text-white flex items-center justify-center font-bold text-[13px] tracking-tight shrink-0">
+              <div className="w-[34px] h-[34px] rounded-lg bg-black dark:bg-white text-white dark:text-black flex items-center justify-center font-bold text-[13px] tracking-tight shrink-0">
                 SA
               </div>
-              <span className="text-xl font-bold text-black tracking-tight">
+              <span className="text-xl font-bold text-black dark:text-white tracking-tight">
                 Studio&nbsp;AdsPro
               </span>
             </div>
 
-            <p className="text-[14.5px] leading-relaxed text-neutral-500 max-w-[260px] mb-6">
+            <p className="text-[14.5px] leading-relaxed text-neutral-500 dark:text-neutral-400 max-w-[260px] mb-6">
               A digital engineering studio building software and AI products for
               growing businesses.
             </p>
 
-            <form className="flex gap-2.5 max-w-[400px]">
+            <form onSubmit={handleSubmit} className="flex gap-2.5 max-w-[400px] relative">
               <input
                 type="email"
+                required
                 placeholder="you@company.com"
-                className="flex-1 min-w-0 px-4 py-3 rounded-[10px] border border-neutral-300 bg-white text-sm text-black placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-black"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="flex-1 min-w-0 px-4 py-3 rounded-[10px] border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-sm text-black dark:text-white placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white transition-colors"
               />
               <button
                 type="submit"
-                className="px-5 py-3 rounded-[10px] bg-black text-white font-semibold text-sm whitespace-nowrap hover:bg-neutral-800 transition-colors"
+                className="px-5 py-3 rounded-[10px] bg-black dark:bg-white text-white dark:text-black font-semibold text-sm whitespace-nowrap hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors cursor-pointer flex items-center gap-1.5"
               >
-                Subscribe
+                {subscribed ? (
+                  <>
+                    <Check className="w-4 h-4 text-emerald-400 dark:text-emerald-600" />
+                    <span>Subscribed</span>
+                  </>
+                ) : (
+                  'Subscribe'
+                )}
               </button>
             </form>
           </div>
 
           {/* Company */}
           <div>
-            <h4 className="font-mono text-[11.5px] font-medium uppercase tracking-[0.12em] text-neutral-400 mb-[22px]">
+            <h4 className="font-mono text-[11.5px] font-medium uppercase tracking-[0.12em] text-neutral-400 dark:text-neutral-500 mb-[22px]">
               Company
             </h4>
 
-            <ul className="space-y-[18px] text-[15px] text-neutral-700">
+            <ul className="space-y-[18px] text-[15px] text-neutral-700 dark:text-neutral-300">
               <li>
                 <a
                   href="#about"
-                  className="hover:text-black hover:underline underline-offset-4"
+                  className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   About
                 </a>
@@ -56,7 +81,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#team"
-                  className="hover:text-black hover:underline underline-offset-4"
+                  className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   Team
                 </a>
@@ -65,7 +90,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#careers"
-                  className="hover:text-black hover:underline underline-offset-4"
+                  className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   Careers
                 </a>
@@ -74,7 +99,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#contact"
-                  className="hover:text-black hover:underline underline-offset-4"
+                  className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   Contact
                 </a>
@@ -84,15 +109,15 @@ export default function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="font-mono text-[11.5px] font-medium uppercase tracking-[0.12em] text-neutral-400 mb-[22px]">
+            <h4 className="font-mono text-[11.5px] font-medium uppercase tracking-[0.12em] text-neutral-400 dark:text-neutral-500 mb-[22px]">
               Services
             </h4>
 
-            <ul className="space-y-[18px] text-[15px] text-neutral-700 whitespace-nowrap">
+            <ul className="space-y-[18px] text-[15px] text-neutral-700 dark:text-neutral-300 whitespace-nowrap">
               <li>
                 <a
                   href="#services"
-                  className="hover:text-black hover:underline underline-offset-4"
+                  className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   Full Stack Development
                 </a>
@@ -101,7 +126,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#services"
-                  className="hover:text-black hover:underline underline-offset-4"
+                  className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   AI &amp; Agent Development
                 </a>
@@ -110,7 +135,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#services"
-                  className="hover:text-black hover:underline underline-offset-4"
+                  className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   Mobile Apps
                 </a>
@@ -119,7 +144,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#services"
-                  className="hover:text-black hover:underline underline-offset-4"
+                  className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   UI/UX Design
                 </a>
@@ -129,15 +154,15 @@ export default function Footer() {
 
           {/* Industries */}
           <div>
-            <h4 className="font-mono text-[11.5px] font-medium uppercase tracking-[0.12em] text-neutral-400 mb-[22px]">
+            <h4 className="font-mono text-[11.5px] font-medium uppercase tracking-[0.12em] text-neutral-400 dark:text-neutral-500 mb-[22px]">
               Industries
             </h4>
 
-            <ul className="space-y-[18px] text-[15px] text-neutral-700">
+            <ul className="space-y-[18px] text-[15px] text-neutral-700 dark:text-neutral-300">
               <li>
                 <a
                   href="#work"
-                  className="hover:text-black hover:underline underline-offset-4"
+                  className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   Healthcare
                 </a>
@@ -146,7 +171,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#work"
-                  className="hover:text-black hover:underline underline-offset-4"
+                  className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   Real Estate
                 </a>
@@ -155,7 +180,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#work"
-                  className="hover:text-black hover:underline underline-offset-4"
+                  className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   Logistics
                 </a>
@@ -164,7 +189,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#work"
-                  className="hover:text-black hover:underline underline-offset-4"
+                  className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   E-commerce
                 </a>
@@ -174,15 +199,15 @@ export default function Footer() {
 
           {/* Resources */}
           <div>
-            <h4 className="font-mono text-[11.5px] font-medium uppercase tracking-[0.12em] text-neutral-400 mb-[22px]">
+            <h4 className="font-mono text-[11.5px] font-medium uppercase tracking-[0.12em] text-neutral-400 dark:text-neutral-500 mb-[22px]">
               Resources
             </h4>
 
-            <ul className="space-y-[18px] text-[15px] text-neutral-700">
+            <ul className="space-y-[18px] text-[15px] text-neutral-700 dark:text-neutral-300">
               <li>
                 <a
                   href="#case-studies"
-                  className="hover:text-black hover:underline underline-offset-4"
+                  className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   Case Studies
                 </a>
@@ -191,7 +216,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#faq"
-                  className="hover:text-black hover:underline underline-offset-4"
+                  className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   FAQ
                 </a>
@@ -200,7 +225,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#pricing"
-                  className="hover:text-black hover:underline underline-offset-4"
+                  className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   Pricing
                 </a>
@@ -209,7 +234,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#blog"
-                  className="hover:text-black hover:underline underline-offset-4"
+                  className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   Blog
                 </a>
@@ -219,29 +244,29 @@ export default function Footer() {
         </div>
 
         {/* Watermark */}
-       <div className="mt-16 h-[220px] flex items-end justify-center overflow-hidden select-none pointer-events-none">
-  <h2 className="font-black text-neutral-200 tracking-tight leading-none text-[clamp(80px,11vw,190px)] whitespace-nowrap">
-    StudioAdsPro
-  </h2>
-</div>
+        <div className="mt-16 h-[220px] flex items-end justify-center overflow-hidden select-none pointer-events-none">
+          <h2 className="font-black text-neutral-200 dark:text-neutral-900 tracking-tight leading-none text-[clamp(80px,11vw,190px)] whitespace-nowrap">
+            StudioAdsPro
+          </h2>
+        </div>
 
         {/* Bottom Bar */}
-         <div className="mt-10 pt-6 pb-6 border-t border-neutral-300 flex flex-col md:flex-row items-center justify-between gap-6">
-          <p className="text-[13.5px] text-neutral-500">
+        <div className="mt-10 pt-6 pb-6 border-t border-neutral-300 dark:border-neutral-800 flex flex-col md:flex-row items-center justify-between gap-6">
+          <p className="text-[13.5px] text-neutral-500 dark:text-neutral-400">
             © 2026 StudioAdsPro. All rights reserved.
           </p>
 
           <div className="flex gap-7">
             <a
               href="#privacy"
-              className="text-[13.5px] text-neutral-700 hover:underline underline-offset-4"
+              className="text-[13.5px] text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
             >
               Privacy Policy
             </a>
 
             <a
               href="#terms"
-              className="text-[13.5px] text-neutral-700 hover:underline underline-offset-4"
+              className="text-[13.5px] text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
             >
               Terms
             </a>
@@ -254,7 +279,7 @@ export default function Footer() {
               target="_blank"
               rel="noreferrer"
               aria-label="LinkedIn"
-              className="w-[34px] h-[34px] rounded-full border border-neutral-300 bg-white flex items-center justify-center text-black hover:bg-black hover:text-white hover:border-black transition-colors"
+              className="w-[34px] h-[34px] rounded-full border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 flex items-center justify-center text-black dark:text-white hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black hover:border-black dark:hover:border-white transition-colors"
             >
               <svg
                 viewBox="0 0 24 24"
@@ -271,7 +296,7 @@ export default function Footer() {
               target="_blank"
               rel="noreferrer"
               aria-label="X"
-              className="w-[34px] h-[34px] rounded-full border border-neutral-300 bg-white flex items-center justify-center text-black hover:bg-black hover:text-white hover:border-black transition-colors"
+              className="w-[34px] h-[34px] rounded-full border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 flex items-center justify-center text-black dark:text-white hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black hover:border-black dark:hover:border-white transition-colors"
             >
               <svg
                 viewBox="0 0 24 24"
@@ -288,7 +313,7 @@ export default function Footer() {
               target="_blank"
               rel="noreferrer"
               aria-label="GitHub"
-              className="w-[34px] h-[34px] rounded-full border border-neutral-300 bg-white flex items-center justify-center text-black hover:bg-black hover:text-white hover:border-black transition-colors"
+              className="w-[34px] h-[34px] rounded-full border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 flex items-center justify-center text-black dark:text-white hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black hover:border-black dark:hover:border-white transition-colors"
             >
               <Github className="w-[15px] h-[15px]" />
             </a>

@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675" style="background:#f8fafc; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <defs>
+    <linearGradient id="trustEmeraldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+
+    <filter id="trustCardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#059669" flood-opacity="0.12" />
+    </filter>
+  </defs>
+
+  <rect width="1200" height="675" fill="#f1f5f9" />
+
+  <!-- APP CONTAINER -->
+  <g transform="translate(40, 24)" filter="url(#trustCardShadow)">
+    <rect width="1120" height="627" rx="20" fill="#ffffff" />
+
+    <!-- TOP NAVBAR -->
+    <g transform="translate(40, 20)">
+      <!-- Logo -->
+      <g>
+        <circle cx="20" cy="20" r="18" fill="#ecfdf5" stroke="#10b981" stroke-width="2" />
+        <!-- Hands / Heart -->
+        <path d="M 12,20 Q 20,10 28,20 Q 20,30 12,20 Z" fill="#059669" />
+        <text x="48" y="20" font-weight="900" font-size="18" fill="#0f172a" letter-spacing="-0.5">GIRIJA DEVI</text>
+        <text x="48" y="32" font-weight="800" font-size="8" fill="#059669" letter-spacing="1.5">CHILD WELFARE TRUST</text>
+      </g>
+
+      <!-- Nav Links -->
+      <g transform="translate(360, 10)">
+        <rect x="-10" y="-4" width="60" height="28" rx="4" fill="#e6f4ea" />
+        <text x="20" y="14" font-weight="800" font-size="11" fill="#059669" text-anchor="middle">HOME</text>
+        <text x="110" y="14" font-weight="700" font-size="11" fill="#475569">IMPACT &amp; PROGRAMS</text>
+        <text x="230" y="14" font-weight="700" font-size="11" fill="#475569">BLOGS &amp; STORIES</text>
+        <text x="340" y="14" font-weight="700" font-size="11" fill="#475569">MEDIA DRIVE</text>
+        <text x="430" y="14" font-weight="700" font-size="11" fill="#475569">ABOUT US</text>
+      </g>
+
+      <!-- Donate Now Button -->
+      <g transform="translate(900, 2)">
+        <rect width="130" height="36" rx="8" fill="#059669" />
+        <text x="65" y="22" font-weight="800" font-size="11" fill="#ffffff" text-anchor="middle">♥ DONATE NOW</text>
+      </g>
+    </g>
+
+    <!-- HERO CONTENT LEFT -->
+    <g transform="translate(40, 95)">
+      <!-- Certification Pill Badge -->
+      <rect width="360" height="28" rx="14" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="1" />
+      <text x="14" y="18" font-weight="700" font-size="9" fill="#047857">✨ DARPAN ID: UP/2023/0593914 | CERTIFICATE NO. IN-UP94161682554216X</text>
+
+      <!-- Giant Bold Headline -->
+      <g transform="translate(0, 60)">
+        <text x="0" y="0" font-weight="900" font-size="46" fill="#0f172a" letter-spacing="-1">NO CHILD BORN TO <tspan fill="#059669">DIE.</tspan></text>
+        <text x="0" y="52" font-weight="900" font-size="46" fill="#0f172a" letter-spacing="-1">LET'S BUILD A <tspan fill="#059669">SECURE</tspan></text>
+        <text x="0" y="104" font-weight="900" font-size="46" fill="#059669" letter-spacing="-1">FUTURE.</text>
+      </g>
+
+      <!-- Paragraph text -->
+      <text x="0" y="235" font-size="13" fill="#475569" width="480">
+        <tspan x="0" dy="0">Girija Devi Child Welfare Trust is a compassionate sanctuary dedicated to</tspan>
+        <tspan x="0" dy="20">protecting orphans, nourishing malnourished families, and empowering</tspan>
+        <tspan x="0" dy="20">young minds with specialized training.</tspan>
+      </text>
+
+      <!-- Bullet Checkmarks -->
+      <g transform="translate(0, 315)">
+        <text x="0" y="0" font-weight="700" font-size="11" fill="#0f172a">✓ 2000+ Children Guided</text>
+        <text x="210" y="0" font-weight="700" font-size="11" fill="#0f172a">✓ Address: D-239, SECTOR-10, NOIDA, UP</text>
+        <text x="0" y="24" font-weight="700" font-size="11" fill="#0f172a">✓ 80G Tax Exemption Certified</text>
+        <text x="210" y="24" font-weight="700" font-size="11" fill="#0f172a">✓ Audited Financial Transparency</text>
+      </g>
+
+      <!-- Action Buttons -->
+      <g transform="translate(0, 375)">
+        <rect width="160" height="46" rx="8" fill="#059669" />
+        <text x="80" y="28" font-weight="800" font-size="12" fill="#ffffff" text-anchor="middle">♥ DONATE NOW</text>
+
+        <g transform="translate(175, 0)">
+          <rect width="180" height="46" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+          <text x="90" y="28" font-weight="800" font-size="12" fill="#0f172a" text-anchor="middle">EXPLORE PROGRAMS →</text>
+        </g>
+      </g>
+    </g>
+
+    <!-- RIGHT FLOATING DONATION CARD -->
+    <g transform="translate(620, 80)" filter="url(#trustCardShadow)">
+      <rect width="440" height="490" rx="20" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+
+      <!-- Card Green Top Banner -->
+      <g transform="translate(0, 0)">
+        <path d="M 0,20 Q 0,0 20,0 L 420,0 Q 440,0 440,20 L 440,110 L 0,110 Z" fill="#059669" />
+        <rect x="20" y="16" width="180" height="20" rx="4" fill="#047857" />
+        <text x="30" y="30" font-weight="800" font-size="8" fill="#ffffff" letter-spacing="1">SUPPORT GIRIJA DEVI TRUST</text>
+
+        <text x="20" y="60" font-weight="900" font-size="16" fill="#ffffff">SUPPORT A CHILD WITH FOOD &amp; EDUCATION</text>
+        <text x="20" y="80" font-weight="500" font-size="10" fill="#d1fae5">Your tiny contribution can secure their fundamental rights.</text>
+      </g>
+
+      <!-- Card Body Content -->
+      <g transform="translate(20, 125)">
+        <!-- Tabs -->
+        <rect width="400" height="38" rx="8" fill="#f1f5f9" />
+        <rect width="195" height="32" x="3" y="3" rx="6" fill="#059669" />
+        <text x="100" y="24" font-weight="800" font-size="10" fill="#ffffff" text-anchor="middle">DONATE MONTHLY</text>
+        <text x="300" y="24" font-weight="800" font-size="10" fill="#64748b" text-anchor="middle">DONATE ONCE</text>
+
+        <!-- Amount Selection Buttons -->
+        <g transform="translate(0, 55)">
+          <text x="0" y="0" font-weight="800" font-size="9" fill="#475569" letter-spacing="0.5">SELECT DONATION AMOUNT (₹)</text>
+          
+          <g transform="translate(0, 10)">
+            <rect width="120" height="42" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+            <text x="60" y="26" font-weight="800" font-size="14" fill="#0f172a" text-anchor="middle">₹1,500</text>
+
+            <!-- Highlighted Option -->
+            <rect x="140" width="120" height="42" rx="8" fill="#f0fdf4" stroke="#059669" stroke-width="2" />
+            <text x="200" y="26" font-weight="900" font-size="14" fill="#059669" text-anchor="middle">₹3,000</text>
+
+            <rect x="280" width="120" height="42" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+            <text x="340" y="26" font-weight="800" font-size="14" fill="#0f172a" text-anchor="middle">₹5,000</text>
+          </g>
+
+          <text x="200" y="74" font-weight="800" font-size="9" fill="#059669" text-anchor="middle" letter-spacing="0.5">OR ENTER CUSTOM AMOUNT</text>
+        </g>
+
+        <!-- Info Box -->
+        <g transform="translate(0, 150)">
+          <rect width="400" height="50" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+          <text x="16" y="22" font-size="10" fill="#475569">Your monthly gift of <tspan font-weight="800" fill="#0f172a">₹3,000</tspan> will continuously support</text>
+          <text x="16" y="38" font-size="10" fill="#475569">food and education for orphaned children.</text>
+        </g>
+
+        <!-- Sponsor Button -->
+        <g transform="translate(0, 220)">
+          <rect width="400" height="48" rx="8" fill="#059669" />
+          <text x="200" y="29" font-weight="900" font-size="14" fill="#ffffff" text-anchor="middle">❤ SPONSOR THIS CHILD</text>
+        </g>
+
+        <!-- Footer -->
+        <text x="200" y="295" font-size="9" fill="#94a3b8" text-anchor="middle">🔒 SECURE HTTPS 256-BIT ENCRYPTION • Tax Receipts within 24 Hrs</text>
+      </g>
+    </g>
+
+  </g>
+</svg>

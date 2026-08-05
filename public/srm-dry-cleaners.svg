@@ -1,0 +1,262 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675" style="background:#f8fafc; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="convenienceGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2563eb" />
+      <stop offset="50%" stop-color="#7c3aed" />
+      <stop offset="100%" stop-color="#e11d48" />
+    </linearGradient>
+
+    <linearGradient id="btnGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="10" stdDeviation="15" flood-color="#0f172a" flood-opacity="0.08" />
+    </filter>
+
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.05" />
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1200" height="675" fill="#f8fafc" />
+
+  <!-- Background decorative light blur circles -->
+  <circle cx="200" cy="150" r="250" fill="#eff6ff" opacity="0.6" />
+  <circle cx="1000" cy="500" r="300" fill="#fef2f2" opacity="0.5" />
+
+  <!-- MAIN HERO CARD CONTAINER -->
+  <g transform="translate(40, 30)">
+    <!-- Inner White Canvas -->
+    <rect width="1120" height="615" rx="24" fill="#ffffff" filter="url(#shadow)" />
+
+    <!-- LEFT SIDE: BRAND & HERO CONTENT -->
+    <g transform="translate(50, 40)">
+      
+      <!-- SRM DRY CLEANERS LOGO -->
+      <g transform="translate(0, 0)">
+        <!-- Green Sparkles / Stars -->
+        <path d="M42 2 L44 8 L50 10 L44 12 L42 18 L40 12 L34 10 L40 8 Z" fill="#10b981" />
+        <path d="M54 14 L55 17 L58 18 L55 19 L54 22 L53 19 L50 18 L53 17 Z" fill="#10b981" />
+        
+        <!-- SRM Text in Bold Green -->
+        <text x="0" y="32" font-weight="900" font-size="34" fill="#047857" letter-spacing="-0.5">SRM</text>
+        
+        <!-- DRY CLEANERS Subtitle -->
+        <text x="0" y="48" font-weight="800" font-size="14" fill="#1e293b" letter-spacing="2">DRY CLEANERS</text>
+        <text x="0" y="58" font-weight="600" font-size="7" fill="#64748b" letter-spacing="1">THINK CLEAN. LIVE FRESH.</text>
+      </g>
+
+      <!-- Badge: ON-TIME DOORSTEP DELIVERY -->
+      <g transform="translate(0, 85)">
+        <rect width="180" height="26" rx="13" fill="#fef2f2" stroke="#fecdd3" stroke-width="1" />
+        <!-- Hanger Icon -->
+        <path d="M18 13 L22 10 C22 8 20 7 18 8 C16.5 8.8 17 11 18 13 Z M12 17 L24 17 L18 13 Z" fill="none" stroke="#e11d48" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        <text x="28" y="17" font-weight="700" font-size="9" fill="#e11d48" letter-spacing="0.5">ON-TIME DOORSTEP DELIVERY</text>
+      </g>
+
+      <!-- Giant Headline: SWIFT CONVENIENCE -->
+      <g transform="translate(0, 150)">
+        <text x="0" y="0" font-weight="900" font-size="52" fill="#0f172a" letter-spacing="-1.5">SWIFT</text>
+        <text x="0" y="52" font-weight="900" font-size="52" fill="url(#convenienceGrad)" letter-spacing="-1.5">CONVENIENCE</text>
+      </g>
+
+      <!-- Body Copy -->
+      <text x="0" y="232" font-weight="400" font-size="13" fill="#475569" width="420">
+        <tspan x="0" dy="0">Curated white-glove pickup logistics engineered for your hectic</tspan>
+        <tspan x="0" dy="20">schedule. Set your preferences and track from washing drums to</tspan>
+        <tspan x="0" dy="20">closet.</tspan>
+      </text>
+
+      <!-- Feature Pill Chips -->
+      <g transform="translate(0, 300)">
+        <!-- Chip 1 -->
+        <g transform="translate(0, 0)">
+          <rect width="130" height="38" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" filter="url(#cardShadow)" />
+          <path d="M16 16 L24 16 M20 12 L20 20" stroke="#2563eb" stroke-width="2" stroke-linecap="round" />
+          <text x="32" y="18" font-weight="700" font-size="9" fill="#1e293b">Premium</text>
+          <text x="32" y="28" font-weight="500" font-size="8" fill="#64748b">Pickup &amp; Delivery</text>
+        </g>
+
+        <!-- Chip 2 -->
+        <g transform="translate(138, 0)">
+          <rect width="115" height="38" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" filter="url(#cardShadow)" />
+          <path d="M16 14 C16 14 18 16 18 20 M20 14 C20 14 22 16 22 20" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" />
+          <text x="30" y="18" font-weight="700" font-size="9" fill="#1e293b">Expert</text>
+          <text x="30" y="28" font-weight="500" font-size="8" fill="#64748b">Dry Cleaning</text>
+        </g>
+
+        <!-- Chip 3 -->
+        <g transform="translate(260, 0)">
+          <rect width="125" height="38" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" filter="url(#cardShadow)" />
+          <path d="M16 19 L19 22 L25 16" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <text x="32" y="18" font-weight="700" font-size="9" fill="#1e293b">Safe &amp; Hygienic</text>
+          <text x="32" y="28" font-weight="500" font-size="8" fill="#64748b">Care Guaranteed</text>
+        </g>
+      </g>
+
+      <!-- Primary Action Buttons -->
+      <g transform="translate(0, 360)">
+        <!-- Schedule Pickup Button -->
+        <g transform="translate(0, 0)" cursor="pointer">
+          <rect width="165" height="46" rx="14" fill="url(#btnGrad)" />
+          <!-- Calendar Icon -->
+          <rect x="18" y="15" width="16" height="15" rx="3" fill="none" stroke="#ffffff" stroke-width="1.8" />
+          <path d="M18 20 L34 20 M22 13 L22 16 M30 13 L30 16" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" />
+          <text x="42" y="28" font-weight="700" font-size="12" fill="#ffffff">Schedule Pickup</text>
+          <path d="M138 23 L144 23 M141 20 L144 23 L141 26" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+        </g>
+
+        <!-- How It Works Button -->
+        <g transform="translate(180, 0)" cursor="pointer">
+          <rect width="135" height="46" rx="14" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1" />
+          <circle cx="32" cy="23" r="11" fill="#3b82f6" />
+          <polygon points="29,18 37,23 29,28" fill="#ffffff" />
+          <text x="50" y="28" font-weight="700" font-size="12" fill="#1e293b">How It Works</text>
+        </g>
+      </g>
+
+      <!-- Active Residents Social Proof -->
+      <g transform="translate(0, 435)">
+        <g transform="translate(0, 0)">
+          <circle cx="12" cy="12" r="12" fill="#3b82f6" stroke="#ffffff" stroke-width="2" />
+          <circle cx="28" cy="12" r="12" fill="#10b981" stroke="#ffffff" stroke-width="2" />
+          <circle cx="44" cy="12" r="12" fill="#f59e0b" stroke="#ffffff" stroke-width="2" />
+          <circle cx="60" cy="12" r="12" fill="#ec4899" stroke="#ffffff" stroke-width="2" />
+          <circle cx="76" cy="12" r="12" fill="#2563eb" stroke="#ffffff" stroke-width="2" />
+          <text x="70" y="16" font-weight="800" font-size="8" fill="#ffffff">+3.5k</text>
+        </g>
+        <text x="100" y="16" font-weight="800" font-size="10" fill="#64748b" letter-spacing="1">ACTIVE NOIDA RESIDENTS</text>
+      </g>
+
+    </g>
+
+    <!-- RIGHT SIDE: VAN & COURIER HERO IMAGE ARTWORK -->
+    <g transform="translate(520, 25)">
+      <!-- Card Frame for Hero Visual -->
+      <clipPath id="heroClip">
+        <rect width="560" height="565" rx="20" />
+      </clipPath>
+
+      <g clip-path="url(#heroClip)">
+        <!-- Realistic Background Environment -->
+        <rect width="560" height="565" fill="#e2e8f0" />
+        
+        <!-- Outdoor Street Scene Background -->
+        <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#bfdbfe" />
+          <stop offset="60%" stop-color="#e0f2fe" />
+          <stop offset="100%" stop-color="#f1f5f9" />
+        </linearGradient>
+        <rect width="560" height="380" fill="url(#skyGrad)" />
+        
+        <!-- Pavement / Road -->
+        <rect y="380" width="560" height="185" fill="#cbd5e1" />
+        <rect y="400" width="560" height="165" fill="#94a3b8" />
+
+        <!-- Trees/Foliage in Background -->
+        <circle cx="80" cy="180" r="100" fill="#a7f3d0" opacity="0.7" />
+        <circle cx="220" cy="140" r="120" fill="#6ee7b7" opacity="0.6" />
+        <circle cx="450" cy="160" r="90" fill="#34d399" opacity="0.5" />
+
+        <!-- WHITE DELIVERY VAN -->
+        <g transform="translate(20, 80)">
+          <!-- Van Body Shadow -->
+          <ellipse cx="220" cy="340" rx="200" ry="20" fill="#475569" opacity="0.4" />
+
+          <!-- Main White Van Chassis -->
+          <path d="M 40,120 Q 60,60 140,50 L 320,50 Q 360,50 370,100 L 380,240 Q 380,310 350,320 L 40,320 Q 20,310 20,240 Z" fill="#ffffff" filter="url(#cardShadow)" />
+          
+          <!-- Windshield / Windows -->
+          <path d="M 60,110 Q 75,70 130,65 L 180,65 L 180,130 L 60,130 Z" fill="#1e293b" opacity="0.85" />
+          <path d="M 190,65 L 260,65 L 260,130 L 190,130 Z" fill="#334155" opacity="0.8" />
+
+          <!-- Side Mirror -->
+          <rect x="40" y="125" width="20" height="30" rx="5" fill="#0f172a" />
+
+          <!-- Van Wheels -->
+          <circle cx="100" cy="310" r="40" fill="#1e293b" />
+          <circle cx="100" cy="310" r="22" fill="#94a3b8" />
+          <circle cx="300" cy="310" r="40" fill="#1e293b" />
+          <circle cx="300" cy="310" r="22" fill="#94a3b8" />
+
+          <!-- SRM DRY CLEANERS BRANDING ON VAN -->
+          <g transform="translate(190, 140)">
+            <text x="0" y="0" font-weight="900" font-size="22" fill="#047857" letter-spacing="-0.5">SRM</text>
+            <text x="0" y="16" font-weight="800" font-size="10" fill="#0f172a" letter-spacing="1.5">DRY CLEANERS</text>
+            
+            <text x="0" y="42" font-weight="700" font-size="9" fill="#475569">SAME-DAY DELIVERY</text>
+            <text x="0" y="56" font-weight="800" font-size="11" fill="#10b981">📞 0800 123 4567</text>
+            <text x="0" y="70" font-weight="600" font-size="9" fill="#64748b">www.srmdrycleaners.com</text>
+          </g>
+        </g>
+
+        <!-- COURIER PERSON CARRYING FRESH SHIRTS -->
+        <g transform="translate(320, 140)">
+          <!-- Courier Shadow -->
+          <ellipse cx="110" cy="400" rx="60" ry="12" fill="#334155" opacity="0.5" />
+
+          <!-- Person Body / Polo Shirt -->
+          <path d="M 80,180 L 140,180 L 150,300 L 70,300 Z" fill="#0f172a" />
+          <!-- SRM Logo on Polo Shirt -->
+          <text x="95" y="210" font-weight="900" font-size="8" fill="#10b981">SRM</text>
+          <text x="95" y="218" font-weight="700" font-size="5" fill="#ffffff">DRY CLEANERS</text>
+
+          <!-- Trousers -->
+          <rect x="80" y="300" width="28" height="100" rx="6" fill="#1e293b" />
+          <rect x="112" y="300" width="28" height="100" rx="6" fill="#1e293b" />
+
+          <!-- Face / Head & Smile -->
+          <circle cx="110" cy="140" r="28" fill="#fbcfe8" />
+          <path d="M 90,130 C 90,100 130,100 130,130 Z" fill="#451a03" /> <!-- Dark Hair -->
+          <path d="M 102,150 Q 110,158 118,150" stroke="#9a3412" stroke-width="2" fill="none" /> <!-- Smile -->
+
+          <!-- PROTECTIVE GARMENT BAGS WITH FRESH DRESS SHIRTS -->
+          <g transform="translate(10, 190)">
+            <!-- Suit Hanger Handle -->
+            <path d="M 60,0 Q 60,-20 80,-20 Q 100,-20 100,0" stroke="#e2e8f0" stroke-width="4" fill="none" />
+            
+            <!-- Clear Plastic Garment Cover (Semi-Transparent) -->
+            <path d="M 10,20 L 110,20 L 125,230 L 0,230 Z" fill="#bfdbfe" opacity="0.6" stroke="#60a5fa" stroke-width="1.5" />
+            
+            <!-- Dress Shirt Inside -->
+            <path d="M 25,35 L 95,35 L 105,210 L 15,210 Z" fill="#38bdf8" />
+            <!-- Shirt Collar & Buttons -->
+            <polygon points="45,35 60,55 75,35" fill="#ffffff" />
+            <circle cx="60" cy="70" r="3" fill="#ffffff" />
+            <circle cx="60" cy="100" r="3" fill="#ffffff" />
+            <circle cx="60" cy="130" r="3" fill="#ffffff" />
+
+            <!-- SRM Brand Garment Bag -->
+            <g transform="translate(60, 60)">
+              <rect x="0" y="0" width="80" height="160" rx="8" fill="#0f172a" />
+              <text x="12" y="70" font-weight="900" font-size="14" fill="#ffffff">SRM</text>
+              <text x="12" y="84" font-weight="800" font-size="7" fill="#10b981" letter-spacing="1">DRY CLEANERS</text>
+            </g>
+          </g>
+        </g>
+
+        <!-- STATUS PANEL BADGE OVERLAY (Top Right) -->
+        <g transform="translate(340, 30)" filter="url(#cardShadow)">
+          <rect width="190" height="52" rx="14" fill="#ffffff" />
+          <circle cx="30" cy="26" r="14" fill="#10b981" />
+          <!-- Checkmark -->
+          <path d="M 24,26 L 28,30 L 36,21" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+          <text x="52" y="20" font-weight="800" font-size="8" fill="#94a3b8" letter-spacing="0.5">STATUS PANEL</text>
+          <text x="52" y="34" font-weight="800" font-size="11" fill="#0f172a">Safe Care Guaranteed</text>
+        </g>
+
+        <!-- Fresh Stacked Laundry Folded Towels (Bottom Left) -->
+        <g transform="translate(180, 420)">
+          <rect x="0" y="30" width="160" height="25" rx="8" fill="#38bdf8" />
+          <rect x="10" y="10" width="140" height="22" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+          <rect x="20" y="-8" width="120" height="20" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+        </g>
+
+      </g>
+    </g>
+  </g>
+</svg>

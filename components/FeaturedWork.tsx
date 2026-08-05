@@ -8,6 +8,7 @@ import ImageWithSkeleton from './ImageWithSkeleton';
 interface CaseStudy {
   id: string;
   url: string;
+  liveUrl: string;
   category: string;
   tag: string;
   title: string;
@@ -32,123 +33,108 @@ export default function FeaturedWork() {
 
   const caseStudies: CaseStudy[] = [
     {
-      id: 'northbridge',
-      url: 'app.northbridgehealth.com',
+      id: 'srm-dry-cleaners',
+      url: 'srmdrycleaners.com',
+      liveUrl: 'https://www.srmdrycleaners.com/',
       category: 'Web & Apps',
-      tag: 'Healthcare · Web Platform',
-      title: 'Northbridge Health',
-      summary: 'A unified patient scheduling platform that replaced paper intake across 12 regional clinics.',
-      metrics: '63% faster intake · 4.8k patients onboarded',
-      imgUrl: 'https://picsum.photos/seed/northbridge/800/450',
-      metricLabel1: 'Faster Patient Intake',
-      metricVal1: '63%',
-      metricLabel2: 'Patients Onboarded',
-      metricVal2: '4.8k',
+      tag: 'E-Commerce & Service · Web Platform',
+      title: 'SRM Dry Cleaners',
+      summary: 'Doorstep pickup, premium eco-friendly dry cleaning, laundry booking, and order tracking web application.',
+      metrics: '10k+ Garments Serviced · Doorstep Delivery',
+      imgUrl: '/srm-dry-cleaners.svg',
+      metricLabel1: 'Garments Serviced',
+      metricVal1: '10,000+',
+      metricLabel2: 'Turnaround Time',
+      metricVal2: '24 Hours',
       fullDetails: {
-        clientOverview: 'Northbridge Health operates 12 primary care clinics requiring automated HIPAA-compliant digital intake.',
-        challenge: 'Manual paper forms created high front-desk bottleneck and patient check-in delays averaging 18 minutes.',
-        solution: 'Built a Next.js patient portal with automated SMS intake links, EHR integration, and instant insurance verification.',
-        techStack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'HIPAA Firestore', 'Twilio API'],
+        clientOverview: 'SRM Dry Cleaners is a leading professional laundry & garment care provider offering fabric care, doorstep pickup, and scheduled delivery services.',
+        challenge: 'Legacy phone-based bookings led to schedule conflicts, lost tracking, and slow customer updates.',
+        solution: 'Built an intuitive online booking workflow with real-time slot selection, automated status alerts, and interactive service catalogs.',
+        techStack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Node.js', 'REST API'],
       },
     },
     {
-      id: 'vantage',
-      url: 'vantagerealty.app',
-      category: 'Web & Apps',
-      tag: 'Real Estate · Marketplace',
-      title: 'Vantage Realty Group',
-      summary: 'A lead-to-close CRM with MLS listing sync and a mobile field application for real estate agents.',
-      metrics: '2.1x lead conversion · 30 days to rollout',
-      imgUrl: 'https://picsum.photos/seed/vantage/800/450',
-      metricLabel1: 'Lead Conversion Boost',
-      metricVal1: '2.1x',
-      metricLabel2: 'Deployment Timeline',
-      metricVal2: '30 Days',
-      fullDetails: {
-        clientOverview: 'Vantage Realty manages over $180M in residential property transactions annually across 85 agents.',
-        challenge: 'Agents were losing leads due to slow follow-up times and disconnected spreadsheet MLS tracking.',
-        solution: 'Created an automated lead routing system with instant WhatsApp integration and interactive map search.',
-        techStack: ['React', 'Node.js', 'PostgreSQL', 'Google Maps API', 'Meta Ads Webhooks'],
-      },
-    },
-    {
-      id: 'fernwell',
-      url: 'dispatch.fernwell.io',
+      id: 'arogya-crm',
+      url: 'arogyacrm.vercel.app',
+      liveUrl: 'https://arogyacrm.vercel.app/login',
       category: 'AI & Software',
-      tag: 'Logistics · AI Agent',
-      title: 'Fernwell Logistics',
-      summary: 'An autonomous AI dispatch agent that optimizes fleet routes and flags delays in real time.',
-      metrics: '85% faster dispatch · $0 missed-window penalties',
-      imgUrl: 'https://picsum.photos/seed/fernwell/800/450',
-      metricLabel1: 'Faster Dispatching',
-      metricVal1: '85%',
-      metricLabel2: 'Penalty Costs Saved',
-      metricVal2: '$0',
+      tag: 'Healthcare · Clinic Management CRM',
+      title: 'Arogya CRM',
+      summary: 'Modern healthcare CRM platform for clinic workflows, patient appointment scheduling, digital medical records, and doctor portals.',
+      metrics: '45+ Medical Clinics · Real-time Cloud CRM',
+      imgUrl: '/arogya-crm.svg',
+      metricLabel1: 'Active Clinics',
+      metricVal1: '45+',
+      metricLabel2: 'Patient Records Managed',
+      metricVal2: '25,000+',
       fullDetails: {
-        clientOverview: 'Fernwell Logistics manages a fleet of 140 commercial trucks servicing cold-chain transport.',
-        challenge: 'Human dispatchers struggled to dynamically re-route drivers when weather or traffic delays occurred.',
-        solution: 'Implemented an AI agent powered by Gemini API to continuously re-evaluate weather, traffic, and fuel efficiency.',
-        techStack: ['Python', 'Gemini API', 'Node.js', 'Mapbox', 'WebSockets'],
+        clientOverview: 'Arogya CRM provides specialized practice management software for multi-specialty medical clinics and practitioners.',
+        challenge: 'Inconsistent patient tracking and manual appointment management across multiple clinic branches.',
+        solution: 'Engineered a secure cloud CRM with instant role-based access for doctors, receptionists, and patients with prescription tracking.',
+        techStack: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Vercel Cloud'],
       },
     },
     {
-      id: 'kestrel',
-      url: 'kestrel.ai/console',
+      id: 'arogya-bio',
+      url: 'arogyabio.com',
+      liveUrl: 'https://www.arogyabio.com/',
       category: 'AI & Software',
-      tag: 'AI Startups · AI Product',
-      title: 'Kestrel Labs',
-      summary: 'Shipped a customer support AI agent MVP that resolves level-1 technical tickets automatically.',
-      metrics: '3 weeks to MVP · 40% tickets automated',
-      imgUrl: 'https://picsum.photos/seed/kestrel/800/450',
-      metricLabel1: 'Time To Launch',
-      metricVal1: '3 Weeks',
-      metricLabel2: 'Tickets Automated',
-      metricVal2: '40%',
+      tag: 'BioTech & Health · Enterprise Web',
+      title: 'Arogya Bio',
+      summary: 'Enterprise web platform showcasing biomedical products, pharmaceutical innovations, and clinical research solutions.',
+      metrics: 'Global Catalog · High Performance Platform',
+      imgUrl: '/arogya-bio.svg',
+      metricLabel1: 'Biomedical Products',
+      metricVal1: '100+',
+      metricLabel2: 'Global Market Reach',
+      metricVal2: 'International',
       fullDetails: {
-        clientOverview: 'Kestrel Labs is a fast-growing B2B SaaS startup scaling from 5k to 50k active users.',
-        challenge: 'Support queue wait times reached 14 hours during peak product release weeks.',
-        solution: 'Engineered a vector-database knowledge base RAG agent that answers complex product queries automatically.',
-        techStack: ['Gemini 2.5 Flash', 'Pinecone Vector DB', 'Next.js', 'FastAPI'],
+        clientOverview: 'Arogya Bio is a pioneer in biomedical product research, laboratory distribution, and medical equipment manufacturing.',
+        challenge: 'Needed a modern, high-trust digital presence to present scientific product lines and facilitate wholesale inquiry leads.',
+        solution: 'Designed and developed a responsive, ultra-fast web application with structured product catalogs and inquiry submission pipelines.',
+        techStack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'SEO Engine'],
       },
     },
     {
-      id: 'milestone',
-      url: 'milestonehealth.app',
+      id: 'samrajya-ayodhyaa',
+      url: 'samrajyaayodhyaa.com',
+      liveUrl: 'https://www.samrajyaayodhyaa.com/',
       category: 'Web & Apps',
-      tag: 'Healthcare · Mobile App',
-      title: 'Milestone Health',
-      summary: 'A cross-platform telehealth booking app that cut appointment no-shows with automated SMS reminders.',
-      metrics: '38% fewer no-shows · 12k bookings/mo',
-      imgUrl: 'https://picsum.photos/seed/milestone/800/450',
-      metricLabel1: 'No-Show Reduction',
-      metricVal1: '38%',
-      metricLabel2: 'Monthly Bookings',
-      metricVal2: '12k',
+      tag: 'Real Estate & Hospitality · Web Portal',
+      title: 'Samrajya Ayodhyaa',
+      summary: 'Premium township and luxury real estate portal showcasing prime residential and commercial properties in Ayodhya.',
+      metrics: '250+ High-intent Leads · Virtual Gallery',
+      imgUrl: '/samrajya-ayodhyaa.svg',
+      metricLabel1: 'Property Inquiries',
+      metricVal1: '250+',
+      metricLabel2: 'Virtual Site Visits',
+      metricVal2: '1,200+',
       fullDetails: {
-        clientOverview: 'Milestone Health provides virtual mental health counseling and therapy sessions.',
-        challenge: 'Late cancellations and missed appointments were costing providers $45k monthly in lost capacity.',
-        solution: 'Developed a React Native iOS & Android application with 1-click video calls and calendar sync.',
-        techStack: ['React Native', 'Firebase', 'WebRTC Video', 'Stripe Payments'],
+        clientOverview: 'Samrajya Ayodhyaa is a flagship real estate development in historic Ayodhya, offering premium land parcels and luxury stays.',
+        challenge: 'Needed an immersive web experience to attract high-net-worth buyers and tourists seeking real estate in Ayodhya.',
+        solution: 'Created an elegant, image-rich portal featuring interactive site maps, amenity showcases, and direct lead capture.',
+        techStack: ['React', 'Next.js', 'Tailwind CSS', 'Responsive Layouts', 'Lead Analytics'],
       },
     },
     {
-      id: 'orbital',
-      url: 'orbital.factory/dashboard',
-      category: 'Logistics & IoT',
-      tag: 'Manufacturing · IoT Dashboard',
-      title: 'Orbital Factory',
-      summary: 'A factory-floor telemetry monitoring dashboard with real-time IoT sensor anomaly alerts.',
-      metrics: '99.2% uptime tracked · 6 factories live',
-      imgUrl: 'https://picsum.photos/seed/orbital/800/450',
-      metricLabel1: 'Tracked Uptime',
-      metricVal1: '99.2%',
-      metricLabel2: 'Live Factory Plants',
-      metricVal2: '6',
+      id: 'girija-devi-trust',
+      url: 'girijadevitrust.com',
+      liveUrl: 'https://www.girijadevitrust.com/',
+      category: 'Web & Apps',
+      tag: 'Non-Profit & Social Impact · Web Platform',
+      title: 'Girija Devi Trust',
+      summary: 'Official non-profit foundation platform driving social welfare, educational programs, healthcare drives, and donor transparency.',
+      metrics: '5,000+ Lives Impacted · Transparent Portal',
+      imgUrl: '/girija-devi-trust.svg',
+      metricLabel1: 'Lives Impacted',
+      metricVal1: '5,000+',
+      metricLabel2: 'Social Programs',
+      metricVal2: '12 Active',
       fullDetails: {
-        clientOverview: 'Orbital operates high-volume automotive parts manufacturing facilities.',
-        challenge: 'Unplanned machine downtime caused costly assembly line freezes before maintenance teams were notified.',
-        solution: 'Built a real-time WebSocket dashboard consuming vibration, temperature, and pressure sensor feeds.',
-        techStack: ['Next.js', 'MQTT WebSockets', 'Tailwind CSS', 'TimescaleDB'],
+        clientOverview: 'Girija Devi Trust is a charitable organization committed to community development, women empowerment, and healthcare.',
+        challenge: 'Required an accessible, transparent digital foundation to publish impact reports and organize social initiatives.',
+        solution: 'Built an inspiring, mobile-first web portal with event updates, initiative showcases, and seamless donor interaction.',
+        techStack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Responsive Design', 'Vercel'],
       },
     },
   ];
@@ -222,10 +208,16 @@ export default function FeaturedWork() {
                       <span className="w-2.5 h-2.5 rounded-full bg-neutral-300 dark:bg-neutral-700" />
                       <span className="w-2.5 h-2.5 rounded-full bg-neutral-300 dark:bg-neutral-700" />
                     </div>
-                    <span className="font-mono text-[11px] text-neutral-500 dark:text-neutral-400 font-medium">
+                    <a
+                      href={item.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="font-mono text-[11px] text-neutral-600 dark:text-neutral-400 font-medium hover:text-black dark:hover:text-white hover:underline flex items-center gap-1"
+                    >
                       {item.url}
-                    </span>
-                    <ArrowUpRight className="w-4 h-4 text-neutral-400 group-hover:text-black dark:group-hover:text-white transition-colors" />
+                      <ArrowUpRight className="w-3.5 h-3.5" />
+                    </a>
                   </div>
 
                   {/* Project Showcase Image with Skeleton Loader */}
@@ -341,10 +333,20 @@ export default function FeaturedWork() {
                 </div>
               </div>
 
-              <div className="mt-8 pt-6 border-t border-neutral-200 dark:border-neutral-800 flex justify-end">
+              <div className="mt-8 pt-6 border-t border-neutral-200 dark:border-neutral-800 flex flex-wrap items-center justify-between gap-3">
+                <a
+                  href={activeProject.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-6 py-2.5 rounded-full bg-black dark:bg-white text-white dark:text-black text-sm font-semibold hover:opacity-90 transition-opacity cursor-pointer inline-flex items-center gap-2"
+                >
+                  <span>Visit Live Website</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </a>
+
                 <button
                   onClick={() => setActiveProject(null)}
-                  className="px-6 py-2.5 rounded-full bg-black dark:bg-white text-white dark:text-black text-sm font-semibold hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors cursor-pointer"
+                  className="px-5 py-2.5 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 text-sm font-semibold hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors cursor-pointer"
                 >
                   Close Case Study
                 </button>
