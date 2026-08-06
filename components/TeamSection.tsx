@@ -20,6 +20,7 @@ const DEFAULT_TEAM: TeamMember[] = [
     name: 'Jay Yadav', 
     title: 'Lead Full Stack Developer', 
     subtitle: 'Architecture, APIs & full-stack delivery',
+    
   },
   { id: 'sk', initials: 'SK', name: 'Samira Khan', title: 'Backend Engineer', subtitle: 'APIs, databases & infra' },
   { id: 'np', initials: 'NP', name: 'Noah Patel', title: 'Frontend Engineer', subtitle: 'Interfaces & performance' },
@@ -32,7 +33,9 @@ const DEFAULT_TEAM: TeamMember[] = [
 ];
 
 export default function TeamSection() {
-  const [members, setMembers] = useState<TeamMember[]>(DEFAULT_TEAM);
+  const [members, setMembers] = useState<TeamMember[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
   const [editName, setEditName] = useState('');
   const [editTitle, setEditTitle] = useState('');
@@ -47,7 +50,7 @@ export default function TeamSection() {
   const [isAdminMode, setIsAdminMode] = useState<boolean>(false);
   const [showAdminPinModal, setShowAdminPinModal] = useState<boolean>(false);
   const [showChangePinModal, setShowChangePinModal] = useState<boolean>(false);
-  const [adminPin, setAdminPin] = useState<string>('1234');
+  const [adminPin, setAdminPin] = useState<string>('190700');
   const [pinInput, setPinInput] = useState<string>('');
   const [newPinInput, setNewPinInput] = useState<string>('');
   const [pinError, setPinError] = useState<string | null>(null);
@@ -62,34 +65,126 @@ export default function TeamSection() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Load saved custom images and admin PIN from localStorage on mount
+  // Sync latest team members from database via API
   useEffect(() => {
-    try {
-      const savedMembers = localStorage.getItem('studioadspro_team_members');
-      if (savedMembers) {
-        const parsed = JSON.parse(savedMembers);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          setMembers(parsed);
+    async function initTeamData() {
+      // 1. Read local cache for instant render on client mount
+      try {
+        const saved = localStorage.getItem('studioadspro_team_members');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setMembers(parsed);
+            setIsLoading(false);
+          }
         }
+
+        const savedPin = localStorage.getItem('studioadspro_admin_pin') || process.env.NEXT_PUBLIC_ADMIN_PIN;
+        if (savedPin) {
+          setAdminPin(savedPin);
+        }
+      } catch (e) {
+        console.error('Failed to load team cache from localStorage', e);
       }
 
-      const savedPin = localStorage.getItem('studioadspro_admin_pin') || process.env.NEXT_PUBLIC_ADMIN_PIN;
-      if (savedPin) {
-        setAdminPin(savedPin);
+      // 2. Fetch database data from API
+      try {
+        const res = await fetch('/api/team');
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+            setMembers(json.data);
+            try {
+              localStorage.setItem('studioadspro_team_members', JSON.stringify(json.data));
+            } catch {}
+          } else {
+            setMembers((prev) => (prev.length === 0 ? DEFAULT_TEAM : prev));
+          }
+        } else {
+          setMembers((prev) => (prev.length === 0 ? DEFAULT_TEAM : prev));
+        }
+      } catch (err) {
+        console.error('Failed to load team from API:', err);
+        setMembers((prev) => (prev.length === 0 ? DEFAULT_TEAM : prev));
+      } finally {
+        setIsLoading(false);
       }
-    } catch (e) {
-      console.error('Failed to load team data from localStorage', e);
     }
+
+    initTeamData();
   }, []);
 
-  // Save to localStorage helper
-  const saveMembers = (updated: TeamMember[]) => {
+  // Save to localStorage helper and PostgreSQL database via /api/team
+  const saveMembers = async (updated: TeamMember[]) => {
     setMembers(updated);
+
+    // Save locally immediately so changes are never lost
     try {
       localStorage.setItem('studioadspro_team_members', JSON.stringify(updated));
     } catch (e) {
-      console.error('Failed to save team members to localStorage', e);
+      console.warn('localStorage quota reached:', e);
     }
+
+    // Sync to PostgreSQL database via API
+    try {
+      const res = await fetch('/api/team', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pin: adminPin, members: updated }),
+      });
+      const json = await res.json().catch(() => null);
+
+      if (json?.success) {
+        if (Array.isArray(json.data) && json.data.length > 0) {
+          setMembers(json.data);
+          try {
+            localStorage.setItem('studioadspro_team_members', JSON.stringify(json.data));
+          } catch {}
+        }
+        showToast('Team members saved to database successfully!');
+      } else {
+        const msg = json?.message || 'Saved locally (database sync pending setup)';
+        showToast(msg);
+      }
+    } catch (apiErr) {
+      console.warn('API sync warning:', apiErr);
+      showToast('Saved locally in browser storage');
+    }
+  };
+
+  const compressImage = (dataUrl: string, maxWidth = 320, maxHeight = 320, quality = 0.75): Promise<string> => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.src = dataUrl;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width = Math.round((width * maxHeight) / height);
+            height = maxHeight;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        } else {
+          resolve(dataUrl);
+        }
+      };
+      img.onerror = () => resolve(dataUrl);
+    });
   };
 
   const handleSetNewPin = (e: React.FormEvent) => {
@@ -128,14 +223,15 @@ export default function TeamSection() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (file.size > 5 * 1024 * 1024) {
-        alert('File size exceeds 5MB limit. Please choose a smaller image.');
+      if (file.size > 10 * 1024 * 1024) {
+        alert('File size exceeds 10MB limit. Please choose a smaller image.');
         return;
       }
       const reader = new FileReader();
-      reader.onload = () => {
+      reader.onload = async () => {
         if (typeof reader.result === 'string') {
-          setPreviewUrl(reader.result);
+          const compressed = await compressImage(reader.result, 320, 320, 0.75);
+          setPreviewUrl(compressed);
         }
       };
       reader.readAsDataURL(file);
@@ -315,8 +411,18 @@ export default function TeamSection() {
 
         {/* Team Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-5">
-          {members.map((member) => (
-            <div key={member.id} className="group flex flex-col relative">
+          {isLoading && members.length === 0 ? (
+            Array.from({ length: 3 }).map((_, idx) => (
+              <div key={idx} className="flex flex-col animate-pulse">
+                <div className="w-full aspect-square rounded-xl bg-neutral-200 dark:bg-neutral-800 mb-3" />
+                <div className="h-4 w-3/4 bg-neutral-200 dark:bg-neutral-800 rounded mb-1.5" />
+                <div className="h-3 w-1/2 bg-neutral-200 dark:bg-neutral-800 rounded mb-1" />
+                <div className="h-3 w-2/3 bg-neutral-200 dark:bg-neutral-800 rounded" />
+              </div>
+            ))
+          ) : (
+            members.map((member) => (
+              <div key={member.id} className="group flex flex-col relative">
               {/* Member Photo Container */}
               <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-gradient-to-br from-neutral-100 to-neutral-200 dark:from-neutral-900 dark:to-neutral-800 border border-neutral-200 dark:border-neutral-800 flex items-center justify-center font-['Space_Grotesk'] text-2xl font-bold text-black dark:text-white mb-3 group-hover:border-black dark:group-hover:border-white transition-all shadow-sm">
                 
@@ -367,7 +473,7 @@ export default function TeamSection() {
                 {member.subtitle}
               </span>
             </div>
-          ))}
+          )))}
         </div>
 
         {/* Modal: Edit Member */}
@@ -405,7 +511,7 @@ export default function TeamSection() {
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Pappu kumar Yadav"
+                    placeholder="e.g. Jay Yadav"
                     value={editName}
                     onChange={(e) => setEditName(e.target.value)}
                     className="w-full px-3.5 py-2 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-black dark:text-white text-xs focus:ring-2 focus:ring-black dark:focus:ring-white outline-none"
@@ -510,7 +616,7 @@ export default function TeamSection() {
                     <div className="space-y-2">
                       <input
                         type="url"
-                        placeholder=""
+                        placeholder="https://images.unsplash.com/..."
                         value={imageUrlInput}
                         onChange={(e) => setImageUrlInput(e.target.value)}
                         className="w-full px-3.5 py-2 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-black dark:text-white text-xs focus:ring-2 focus:ring-black dark:focus:ring-white outline-none"

@@ -244,8 +244,8 @@ export default function Footer() {
         </div>
 
         {/* Watermark */}
-        <div className="mt-16 h-[220px] flex items-end justify-center overflow-hidden select-none pointer-events-none">
-          <h2 className="font-black text-neutral-200 dark:text-neutral-900 tracking-tight leading-none text-[clamp(80px,11vw,190px)] whitespace-nowrap">
+        <div className="mt-8 sm:mt-12 md:mt-16 h-[80px] sm:h-[140px] md:h-[220px] flex items-end justify-center overflow-hidden select-none pointer-events-none w-full px-2">
+          <h2 className="font-black text-neutral-200 dark:text-neutral-900 tracking-tight leading-none text-[clamp(32px,10.5vw,190px)] whitespace-nowrap text-center">
             StudioAdsPro
           </h2>
         </div>
@@ -257,19 +257,25 @@ export default function Footer() {
           </p>
 
           <div className="flex gap-7">
-            <a
-              href="#privacy"
-              className="text-[13.5px] text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
+            <button
+              onClick={() => {
+                localStorage.removeItem('studioadspro_terms_accepted');
+                window.location.reload();
+              }}
+              className="text-[13.5px] text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors cursor-pointer"
             >
               Privacy Policy
-            </a>
+            </button>
 
-            <a
-              href="#terms"
-              className="text-[13.5px] text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
+            <button
+              onClick={() => {
+                localStorage.removeItem('studioadspro_terms_accepted');
+                window.location.reload();
+              }}
+              className="text-[13.5px] text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors cursor-pointer"
             >
-              Terms
-            </a>
+              Terms &amp; Policy
+            </button>
           </div>
 
           <div className="flex gap-2.5">

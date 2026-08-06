@@ -4,18 +4,13 @@ import { motion } from 'motion/react';
 
 export default function TrustedBar() {
   const brands = [
-    'Northbridge Health',
-    'Vantage Realty Group',
-    'Fernwell Logistics',
-    'Kestrel Labs',
-    'Milestone Health',
-    'Orbital Factory',
-    'Northbridge Health',
-    'Vantage Realty Group',
-    'Fernwell Logistics',
-    'Kestrel Labs',
-    'Milestone Health',
-    'Orbital Factory',
+    'SRM Dry Cleaners',
+    'Arogya CRM',
+    'Arogya Bio',
+    'Samrajya Ayodhya',
+    'Girija Devi Trus',
+    'BalanceSync Pro',
+    'Abhiyantri setu'
   ];
 
   return (

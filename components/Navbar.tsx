@@ -35,17 +35,48 @@ export default function Navbar() {
     >
       <nav className="max-w-[1200px] mx-auto px-4 sm:px-6 flex items-center justify-between h-16 sm:h-18" aria-label="Primary">
         {/* Logo */}
-        <a href="#home" className="flex items-center gap-2.5 group">
+        <a href="#home" className="flex items-center gap-3 group select-none">
           <motion.div
-            whileHover={{ scale: 1.05, rotate: 2 }}
-            whileTap={{ scale: 0.95 }}
-            className="w-9 h-9 rounded-lg bg-black dark:bg-white text-white dark:text-black flex items-center justify-center font-mono text-xs font-bold tracking-tight shadow-md border border-neutral-800 dark:border-neutral-200"
+            whileHover={{ scale: 1.06, rotate: 3 }}
+            whileTap={{ scale: 0.94 }}
+            className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-neutral-900 via-black to-neutral-800 dark:from-white dark:via-neutral-100 dark:to-neutral-200 text-white dark:text-black flex items-center justify-center shadow-md shadow-black/10 dark:shadow-white/10 border border-neutral-800 dark:border-neutral-200 overflow-hidden"
           >
-            SAP
+            {/* Subtle Metallic/Glow Overlay */}
+            <span className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 dark:via-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            
+            {/* Premium Custom SVG Emblem (Fusion of S, A, and Growth Arrow) */}
+            <svg
+              className="w-5 h-5 text-white dark:text-black transform group-hover:scale-110 transition-transform duration-300"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              {/* Outer Hex/Diamond Structure */}
+              <path d="M12 2L2 7l10 5 10-5-10-5z" />
+              <path d="M2 17l10 5 10-5" />
+              <path d="M2 12l10 5 10-5" />
+            </svg>
+            
+            {/* Glowing Corner Dot */}
+            <span className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-emerald-400 dark:bg-emerald-600 animate-pulse" />
           </motion.div>
-          <span className="font-sans font-bold text-lg sm:text-xl tracking-tight text-black dark:text-white">
-            Studio<span className="text-black dark:text-white font-extrabold">AdsPro</span>
-          </span>
+
+          <div className="flex flex-col">
+            <div className="flex items-center gap-1.5">
+              <span className="font-['Space_Grotesk'] font-bold text-xl sm:text-2xl tracking-tight text-black dark:text-white leading-none">
+                Studio<span className="font-black bg-gradient-to-r from-neutral-900 via-neutral-700 to-black dark:from-white dark:via-neutral-200 dark:to-neutral-400 bg-clip-text text-transparent">AdsPro</span>
+              </span>
+              <span className="px-1.5 py-0.5 rounded-md font-mono text-[9px] font-extrabold uppercase tracking-widest bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-700 leading-none">
+                AGENCY
+              </span>
+            </div>
+            <span className="font-mono text-[10px] text-neutral-500 dark:text-neutral-400 tracking-wider uppercase font-medium">
+              Digital Marketing &amp; Dev
+            </span>
+          </div>
         </a>
 
         {/* Desktop Links */}

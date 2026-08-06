@@ -2,8 +2,8 @@
 
 export default function Stats() {
   const statsList = [
-    { number: '120+', label: 'Projects delivered' },
-    { number: '35+', label: 'Technologies mastered' },
+    { number: '20+', label: 'Projects delivered' },
+    { number: '25+', label: 'Technologies mastered' },
     { number: '15+', label: 'Industries served' },
     { number: '99%', label: 'Success rate' },
   ];

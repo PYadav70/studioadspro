@@ -14,23 +14,9 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<Theme>('light');
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    const savedTheme = localStorage.getItem('theme') as Theme | null;
-    if (savedTheme === 'light' || savedTheme === 'dark') {
-      setThemeState(savedTheme);
-      applyTheme(savedTheme);
-    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      setThemeState('dark');
-      applyTheme('dark');
-    } else {
-      applyTheme('light');
-    }
-  }, []);
 
   const applyTheme = (newTheme: Theme) => {
+    if (typeof document === 'undefined') return;
     const root = document.documentElement;
     if (newTheme === 'dark') {
       root.classList.add('dark');
@@ -40,6 +26,18 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       root.setAttribute('data-theme', 'light');
     }
   };
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') as Theme | null;
+    let initialTheme: Theme = 'light';
+    if (savedTheme === 'light' || savedTheme === 'dark') {
+      initialTheme = savedTheme;
+    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      initialTheme = 'dark';
+    }
+
+    applyTheme(initialTheme);
+  }, []);
 
   const setTheme = (newTheme: Theme) => {
     setThemeState(newTheme);
@@ -54,9 +52,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>
-      <div className={mounted ? '' : 'contents'}>
-        {children}
-      </div>
+      {children}
     </ThemeContext.Provider>
   );
 }

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 //@ts-ignore
 import nodemailer from 'nodemailer';
+import { getPrisma } from '@/lib/prisma';
 
 export async function POST(req: NextRequest) {
   try {
@@ -25,6 +26,35 @@ export async function POST(req: NextRequest) {
     console.log(`Budget: ${budget || 'N/A'}`);
     console.log(`Message: ${message}`);
     console.log('-----------------------------------');
+
+    // Persist to PostgreSQL Neon DB via Prisma if database connection is available
+    const prisma = getPrisma();
+    let savedLead = null;
+    let dbStatus = 'not_configured';
+    let dbErrorMessage: string | null = null;
+
+    if (prisma) {
+      try {
+        savedLead = await prisma.contactLead.create({
+          data: {
+            fullName: name,
+            email,
+            phone: company ? `Company: ${company}` : null,
+            service: service || company || null,
+            budget: budget || null,
+            message,
+          },
+        });
+        dbStatus = 'saved';
+        console.log('Successfully saved ContactLead to Neon Prisma DB. ID:', savedLead.id);
+      } catch (dbErr: any) {
+        console.error('Failed to save contact lead to Prisma DB:', dbErr);
+        dbStatus = 'error';
+        dbErrorMessage = dbErr?.message || String(dbErr);
+      }
+    } else {
+      console.warn('Prisma client not initialized. DATABASE_URL may be missing or invalid in environment variables.');
+    }
 
     const smtpHost = process.env.SMTP_HOST;
     const smtpPort = parseInt(process.env.SMTP_PORT || '587', 10);
@@ -70,7 +100,12 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: `Inquiry successfully logged and notification sent to ${recipientEmail}`,
+      message: dbStatus === 'saved'
+        ? `Inquiry successfully saved to database and logged for ${recipientEmail}`
+        : `Inquiry received! (${dbStatus === 'not_configured' ? 'DATABASE_URL not configured on server' : 'DB error: ' + dbErrorMessage})`,
+      dbStatus,
+      leadId: savedLead?.id || null,
+      dbErrorMessage,
     });
   } catch (error: any) {
     console.error('Contact email submission error:', error);

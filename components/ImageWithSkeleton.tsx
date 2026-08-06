@@ -23,12 +23,19 @@ export default function ImageWithSkeleton({
   const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
-    setIsLoaded(false);
-    setHasError(false);
+    if (!src) {
+      const timer = setTimeout(() => setHasError(true), 0);
+      return () => clearTimeout(timer);
+    }
 
-    if (imgRef.current && imgRef.current.complete) {
-      if (imgRef.current.naturalWidth > 0 || imgRef.current.naturalHeight > 0) {
-        setIsLoaded(true);
+    // Check if the image has already completed loading (e.g. cached or local SVG)
+    if (imgRef.current?.complete) {
+      if (imgRef.current.naturalWidth === 0 && imgRef.current.naturalHeight === 0 && !src.endsWith('.svg')) {
+        const timer = setTimeout(() => setHasError(true), 0);
+        return () => clearTimeout(timer);
+      } else {
+        const timer = setTimeout(() => setIsLoaded(true), 0);
+        return () => clearTimeout(timer);
       }
     }
   }, [src]);
@@ -36,11 +43,11 @@ export default function ImageWithSkeleton({
   return (
     <div className={`relative overflow-hidden bg-neutral-100 dark:bg-neutral-800 ${aspectRatio} ${containerClassName}`}>
       {!isLoaded && !hasError && (
-        <Skeleton className="absolute inset-0 w-full h-full z-10" />
+        <Skeleton className="absolute inset-0 w-full h-full z-10 pointer-events-none" />
       )}
 
       {hasError ? (
-        <div className="absolute inset-0 w-full h-full bg-gradient-to-br fill-neutral-800 from-neutral-800 to-neutral-900 text-white flex flex-col items-center justify-center p-4 text-center">
+        <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-neutral-800 to-neutral-900 text-white flex flex-col items-center justify-center p-4 text-center">
           <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center font-bold text-sm mb-2">
             {alt ? alt.substring(0, 2).toUpperCase() : 'PR'}
           </div>
@@ -64,4 +71,3 @@ export default function ImageWithSkeleton({
     </div>
   );
 }
-
