@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Camera, Upload, Link as LinkIcon, Trash2, X, Plus, Check, User, Lock, Unlock, ShieldAlert } from 'lucide-react';
+import Image from 'next/image';
+import { Camera, Upload, Link as LinkIcon, Trash2, X, Plus, Check, User, Lock, Unlock, ShieldAlert, Loader2 } from 'lucide-react';
 
 interface TeamMember {
   id: string;
@@ -11,26 +12,6 @@ interface TeamMember {
   subtitle: string;
   image?: string;
 }
-
-const DEFAULT_TEAM: TeamMember[] = [
-  { id: 'ar', initials: 'AR', name: 'Alex Rivera', title: 'Founder & CEO', subtitle: 'Product strategy & client partnerships' },
-  { 
-    id: 'jm', 
-    initials: 'JY', 
-    name: 'Jay Yadav', 
-    title: 'Lead Full Stack Developer', 
-    subtitle: 'Architecture, APIs & full-stack delivery',
-    
-  },
-  { id: 'sk', initials: 'SK', name: 'Samira Khan', title: 'Backend Engineer', subtitle: 'APIs, databases & infra' },
-  { id: 'np', initials: 'NP', name: 'Noah Patel', title: 'Frontend Engineer', subtitle: 'Interfaces & performance' },
-  { id: 'dv', initials: 'DV', name: 'Devon Vance', title: 'AI Engineer', subtitle: 'Agents & automation' },
-  { id: 'lc', initials: 'LC', name: 'Lena Chen', title: 'UI/UX Designer', subtitle: 'Research & design systems' },
-  { id: 'to', initials: 'TO', name: 'Tariq Owens', title: 'Application Developer', subtitle: 'iOS & Android' },
-  { id: 'rb', initials: 'RB', name: 'Rhea Bhatia', title: 'Social Media Strategist', subtitle: 'Content & campaigns' },
-  { id: 'ew', initials: 'EW', name: 'Elena Wong', title: 'Creative Designer', subtitle: 'Brand & visual identity' },
-  { id: 'mh', initials: 'MH', name: 'Marcus Hill', title: 'Video Editor', subtitle: 'Motion & product video' },
-];
 
 export default function TeamSection() {
   const [members, setMembers] = useState<TeamMember[]>([]);
@@ -42,9 +23,11 @@ export default function TeamSection() {
   const [editSubtitle, setEditSubtitle] = useState('');
   const [imageUrlInput, setImageUrlInput] = useState('');
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [isUploadingImage, setIsUploadingImage] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<'upload' | 'url'>('upload');
   const [isAddingNew, setIsAddingNew] = useState(false);
   const [toastMsg, setToastMsg] = useState<string | null>(null);
+  const [modalError, setModalError] = useState<string | null>(null);
 
   // Admin Mode protection so public visitors cannot edit/delete photos
   const [isAdminMode, setIsAdminMode] = useState<boolean>(false);
@@ -92,20 +75,15 @@ export default function TeamSection() {
         const res = await fetch('/api/team');
         if (res.ok) {
           const json = await res.json();
-          if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+          if (json.success && Array.isArray(json.data)) {
             setMembers(json.data);
             try {
               localStorage.setItem('studioadspro_team_members', JSON.stringify(json.data));
             } catch {}
-          } else {
-            setMembers((prev) => (prev.length === 0 ? DEFAULT_TEAM : prev));
           }
-        } else {
-          setMembers((prev) => (prev.length === 0 ? DEFAULT_TEAM : prev));
         }
       } catch (err) {
         console.error('Failed to load team from API:', err);
-        setMembers((prev) => (prev.length === 0 ? DEFAULT_TEAM : prev));
       } finally {
         setIsLoading(false);
       }
@@ -114,18 +92,8 @@ export default function TeamSection() {
     initTeamData();
   }, []);
 
-  // Save to localStorage helper and PostgreSQL database via /api/team
-  const saveMembers = async (updated: TeamMember[]) => {
-    setMembers(updated);
-
-    // Save locally immediately so changes are never lost
-    try {
-      localStorage.setItem('studioadspro_team_members', JSON.stringify(updated));
-    } catch (e) {
-      console.warn('localStorage quota reached:', e);
-    }
-
-    // Sync to PostgreSQL database via API
+  // Save to PostgreSQL database (NeonDB) via /api/team
+  const saveMembers = async (updated: TeamMember[]): Promise<boolean> => {
     try {
       const res = await fetch('/api/team', {
         method: 'POST',
@@ -134,27 +102,33 @@ export default function TeamSection() {
       });
       const json = await res.json().catch(() => null);
 
-      if (json?.success) {
-        if (Array.isArray(json.data) && json.data.length > 0) {
-          setMembers(json.data);
-          try {
-            localStorage.setItem('studioadspro_team_members', JSON.stringify(json.data));
-          } catch {}
-        }
-        showToast('Team members saved to database successfully!');
+      if (res.ok && json?.success) {
+        const freshData = Array.isArray(json.data) && json.data.length > 0 ? json.data : updated;
+        setMembers(freshData);
+        try {
+          localStorage.setItem('studioadspro_team_members', JSON.stringify(freshData));
+        } catch {}
+        showToast('Saved to Neon Database successfully!');
+        setModalError(null);
+        return true;
       } else {
-        const msg = json?.message || 'Saved locally (database sync pending setup)';
-        showToast(msg);
+        const msg = json?.message || 'Database save failed.';
+        setModalError(`NeonDB Error: ${msg}`);
+        showToast(`NeonDB Error: ${msg}`);
+        return false;
       }
-    } catch (apiErr) {
-      console.warn('API sync warning:', apiErr);
-      showToast('Saved locally in browser storage');
+    } catch (apiErr: any) {
+      console.error('API sync error:', apiErr);
+      const msg = apiErr?.message || 'Network connection error';
+      setModalError(`NeonDB Error: ${msg}`);
+      showToast(`NeonDB Error: ${msg}`);
+      return false;
     }
   };
 
-  const compressImage = (dataUrl: string, maxWidth = 320, maxHeight = 320, quality = 0.75): Promise<string> => {
+  const compressImage = (dataUrl: string, maxWidth = 1600, maxHeight = 1600, quality = 0.95): Promise<string> => {
     return new Promise((resolve) => {
-      const img = new Image();
+      const img = new window.Image();
       img.src = dataUrl;
       img.onload = () => {
         const canvas = document.createElement('canvas');
@@ -177,6 +151,8 @@ export default function TeamSection() {
         canvas.height = height;
         const ctx = canvas.getContext('2d');
         if (ctx) {
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
           ctx.drawImage(img, 0, 0, width, height);
           resolve(canvas.toDataURL('image/jpeg', quality));
         } else {
@@ -204,7 +180,7 @@ export default function TeamSection() {
 
   const showToast = (msg: string) => {
     setToastMsg(msg);
-    setTimeout(() => setToastMsg(null), 3000);
+    setTimeout(() => setToastMsg(null), 3500);
   };
 
   const handleAdminUnlock = (e: React.FormEvent) => {
@@ -220,21 +196,64 @@ export default function TeamSection() {
     }
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      if (file.size > 10 * 1024 * 1024) {
-        alert('File size exceeds 10MB limit. Please choose a smaller image.');
-        return;
+    if (!file) return;
+
+    if (file.size > 20 * 1024 * 1024) {
+      setModalError('File size exceeds 20MB limit. Please choose a smaller image.');
+      return;
+    }
+
+    setModalError(null);
+    setIsUploadingImage(true);
+
+    try {
+      // 1. Prepare FormData for Cloudinary API upload
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success && data.url) {
+        setPreviewUrl(data.url);
+        setModalError(null);
+        showToast('Uploaded photo to Cloudinary!');
+      } else {
+        const errorMsg = data.message || 'Cloudinary upload failed.';
+        // Auto-fallback to local crystal-clear HD image (1600x1600 @ 0.95 quality)
+        const reader = new FileReader();
+        reader.onload = async () => {
+          if (typeof reader.result === 'string') {
+            const compressed = await compressImage(reader.result, 1600, 1600, 0.95);
+            setPreviewUrl(compressed);
+            showToast('Loaded photo with HD local optimization');
+            setModalError(`Cloudinary Note: ${errorMsg}. Photo loaded with HD local optimization so you can save.`);
+          }
+        };
+        reader.readAsDataURL(file);
       }
+    } catch (err: any) {
+      console.error('Cloudinary upload error:', err);
+      const errorMsg = err?.message || 'Server error';
       const reader = new FileReader();
       reader.onload = async () => {
         if (typeof reader.result === 'string') {
-          const compressed = await compressImage(reader.result, 320, 320, 0.75);
+          const compressed = await compressImage(reader.result, 1600, 1600, 0.95);
           setPreviewUrl(compressed);
+          showToast('Loaded photo with HD local optimization');
+          setModalError(`Cloudinary Note: ${errorMsg}. Photo loaded with HD local optimization.`);
         }
       };
       reader.readAsDataURL(file);
+    } finally {
+      setIsUploadingImage(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
     }
   };
 
@@ -247,7 +266,7 @@ export default function TeamSection() {
     setImageUrlInput(member.image || '');
   };
 
-  const handleSaveMember = () => {
+  const handleSaveMember = async () => {
     if (!selectedMember) return;
     const finalUrl = activeTab === 'upload' ? previewUrl : imageUrlInput;
     const cleanName = editName.trim() || selectedMember.name;
@@ -274,30 +293,36 @@ export default function TeamSection() {
         : m
     );
 
-    saveMembers(updated);
-    showToast(`Saved changes for ${cleanName}`);
-    closeModal();
+    const ok = await saveMembers(updated);
+    if (ok) {
+      showToast(`Saved changes for ${cleanName}`);
+      closeModal();
+    }
   };
 
-  const handleDeleteMember = (memberId: string) => {
+  const handleDeleteMember = async (memberId: string) => {
     const target = members.find((m) => m.id === memberId);
     const updated = members.filter((m) => m.id !== memberId);
-    saveMembers(updated);
-    showToast(`Removed ${target?.name || 'member'} from team`);
-    closeModal();
+    const ok = await saveMembers(updated);
+    if (ok) {
+      showToast(`Removed ${target?.name || 'member'} from team`);
+      closeModal();
+    }
   };
 
-  const handleRemovePhoto = (memberId: string) => {
+  const handleRemovePhoto = async (memberId: string) => {
     setPreviewUrl(null);
     setImageUrlInput('');
     const updated = members.map((m) =>
       m.id === memberId ? { ...m, image: undefined } : m
     );
-    saveMembers(updated);
-    showToast('Photo removed');
+    const ok = await saveMembers(updated);
+    if (ok) {
+      showToast('Photo removed');
+    }
   };
 
-  const handleAddNewMember = (e: React.FormEvent) => {
+  const handleAddNewMember = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newMember.title) return;
 
@@ -325,11 +350,12 @@ export default function TeamSection() {
     };
 
     const updated = [...members, created];
-    saveMembers(updated);
-    showToast(`Added ${newMember.title} to team!`);
-
-    setNewMember({ name: '', title: '', subtitle: '', image: '' });
-    setIsAddingNew(false);
+    const ok = await saveMembers(updated);
+    if (ok) {
+      showToast(`Added ${newMember.title} to team!`);
+      setNewMember({ name: '', title: '', subtitle: '', image: '' });
+      setIsAddingNew(false);
+    }
   };
 
   const closeModal = () => {
@@ -420,6 +446,15 @@ export default function TeamSection() {
                 <div className="h-3 w-2/3 bg-neutral-200 dark:bg-neutral-800 rounded" />
               </div>
             ))
+          ) : members.length === 0 ? (
+            <div className="col-span-full py-12 px-4 text-center rounded-2xl border border-dashed border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/30 flex flex-col items-center justify-center">
+              <User className="w-10 h-10 text-neutral-400 mb-3" />
+              <h3 className="text-sm font-bold text-black dark:text-white">No Team Members Found</h3>
+              <p className="text-xs text-neutral-500 mt-1 max-w-sm mx-auto">
+                There are currently no team members in the database.
+                {isAdminMode ? " Click 'Add Member' above to create your first team member." : " Unlock Admin Mode to add team members."}
+              </p>
+            </div>
           ) : (
             members.map((member) => (
               <div key={member.id} className="group flex flex-col relative">
@@ -427,10 +462,15 @@ export default function TeamSection() {
               <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-gradient-to-br from-neutral-100 to-neutral-200 dark:from-neutral-900 dark:to-neutral-800 border border-neutral-200 dark:border-neutral-800 flex items-center justify-center font-['Space_Grotesk'] text-2xl font-bold text-black dark:text-white mb-3 group-hover:border-black dark:group-hover:border-white transition-all shadow-sm">
                 
                 {member.image ? (
-                  <img
+                  <Image
                     src={member.image}
-                    alt={member.title}
-                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                    alt={member.title || member.name}
+                    fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 20vw"
+                    quality={95}
+                    className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                    referrerPolicy="no-referrer"
+                    unoptimized={Boolean(member.image.startsWith('data:'))}
                   />
                 ) : (
                   <span>{member.initials}</span>
@@ -501,6 +541,17 @@ export default function TeamSection() {
                   </p>
                 </div>
               </div>
+
+              {/* Inline Error Alert Notification Banner */}
+              {modalError && (
+                <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 text-xs text-amber-800 dark:text-amber-200 flex items-start gap-2 mb-4">
+                  <ShieldAlert className="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
+                  <span className="flex-1 leading-relaxed">{modalError}</span>
+                  <button onClick={() => setModalError(null)} className="text-amber-500 hover:text-amber-700">
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              )}
 
               <div className="space-y-4">
                 {/* Full Name */}
@@ -593,12 +644,27 @@ export default function TeamSection() {
                       />
 
                       <div
-                        onClick={() => fileInputRef.current?.click()}
-                        className="border-2 border-dashed border-neutral-300 dark:border-neutral-700 hover:border-black dark:hover:border-white rounded-xl p-4 text-center cursor-pointer transition-colors bg-neutral-50 dark:bg-neutral-800/30 flex flex-col items-center justify-center gap-1.5"
+                        onClick={() => !isUploadingImage && fileInputRef.current?.click()}
+                        className="border-2 border-dashed border-neutral-300 dark:border-neutral-700 hover:border-black dark:hover:border-white rounded-xl p-4 text-center cursor-pointer transition-colors bg-neutral-50 dark:bg-neutral-800/30 flex flex-col items-center justify-center gap-1.5 min-h-[100px]"
                       >
-                        {previewUrl ? (
+                        {isUploadingImage ? (
+                          <div className="flex flex-col items-center gap-2 py-2">
+                            <Loader2 className="w-6 h-6 animate-spin text-black dark:text-white" />
+                            <span className="text-xs font-medium text-neutral-600 dark:text-neutral-400">
+                              Uploading photo to Cloudinary...
+                            </span>
+                          </div>
+                        ) : previewUrl ? (
                           <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-black dark:border-white">
-                            <img src={previewUrl} alt="Preview" className="w-full h-full object-cover" />
+                            <Image
+                              src={previewUrl}
+                              alt="Preview"
+                              fill
+                              quality={95}
+                              className="object-cover"
+                              referrerPolicy="no-referrer"
+                              unoptimized={Boolean(previewUrl.startsWith('data:'))}
+                            />
                           </div>
                         ) : (
                           <>
@@ -606,7 +672,7 @@ export default function TeamSection() {
                               <Upload className="w-5 h-5" />
                             </div>
                             <span className="text-xs font-medium text-black dark:text-white">
-                              Click to browse and upload photo
+                              Click to browse and upload photo to Cloudinary
                             </span>
                           </>
                         )}
@@ -616,7 +682,7 @@ export default function TeamSection() {
                     <div className="space-y-2">
                       <input
                         type="url"
-                        placeholder="https://images.unsplash.com/..."
+                        placeholder="https://res.cloudinary.com/... or https://images.unsplash.com/..."
                         value={imageUrlInput}
                         onChange={(e) => setImageUrlInput(e.target.value)}
                         className="w-full px-3.5 py-2 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-black dark:text-white text-xs focus:ring-2 focus:ring-black dark:focus:ring-white outline-none"
@@ -624,14 +690,16 @@ export default function TeamSection() {
 
                       {imageUrlInput && (
                         <div className="flex items-center gap-3 p-2 rounded-xl bg-neutral-50 dark:bg-neutral-800/40">
-                          <img
-                            src={imageUrlInput}
-                            alt="Preview"
-                            className="w-10 h-10 rounded-lg object-cover border border-neutral-200 dark:border-neutral-700"
-                            onError={(e) => {
-                              (e.target as HTMLElement).style.display = 'none';
-                            }}
-                          />
+                          <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-neutral-200 dark:border-neutral-700 flex-shrink-0">
+                            <Image
+                              src={imageUrlInput}
+                              alt="Preview"
+                              fill
+                              className="object-cover"
+                              referrerPolicy="no-referrer"
+                              unoptimized={Boolean(imageUrlInput.startsWith('data:'))}
+                            />
+                          </div>
                           <span className="text-xs text-neutral-500">Image URL preview</span>
                         </div>
                       )}

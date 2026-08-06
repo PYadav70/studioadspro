@@ -1,62 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getPrisma } from '@/lib/prisma';
 
-const DEFAULT_TEAM = [
-  { id: 'ar', name: 'Alex Rivera', title: 'Founder & CEO', subtitle: 'Product strategy & client partnerships' },
-  { 
-    id: 'jm', 
-    name: 'Jay Yadav', 
-    title: 'Lead Full Stack Developer', 
-    subtitle: 'Architecture, APIs & full-stack delivery',
-    image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80'
-  },
-  { id: 'sk', name: 'Samira Khan', title: 'Backend Engineer', subtitle: 'APIs, databases & infra' },
-  { id: 'np', name: 'Noah Patel', title: 'Frontend Engineer', subtitle: 'Interfaces & performance' },
-  { id: 'dv', name: 'Devon Vance', title: 'AI Engineer', subtitle: 'Agents & automation' },
-  { id: 'lc', name: 'Lena Chen', title: 'UI/UX Designer', subtitle: 'Research & design systems' },
-  { id: 'to', name: 'Tariq Owens', title: 'Application Developer', subtitle: 'iOS & Android' },
-  { id: 'rb', name: 'Rhea Bhatia', title: 'Social Media Strategist', subtitle: 'Content & campaigns' },
-  { id: 'ew', name: 'Elena Wong', title: 'Creative Designer', subtitle: 'Brand & visual identity' },
-  { id: 'mh', name: 'Marcus Hill', title: 'Video Editor', subtitle: 'Motion & product video' },
-];
-
 export async function GET() {
   try {
     const prisma = getPrisma();
     if (!prisma) {
       return NextResponse.json({
         success: true,
-        data: DEFAULT_TEAM.map((m) => ({
-          ...m,
-          initials: m.name.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2),
-        })),
+        data: [],
         message: 'DATABASE_URL not configured.',
       });
     }
 
-    let members = await prisma.teamMember.findMany({
+    const members = await prisma.teamMember.findMany({
       orderBy: { displayOrder: 'asc' },
     });
-
-    // Auto-seed if database is empty
-    if (members.length === 0) {
-      for (let i = 0; i < DEFAULT_TEAM.length; i++) {
-        const m = DEFAULT_TEAM[i];
-        await prisma.teamMember.create({
-          data: {
-            id: m.id,
-            name: m.name,
-            role: m.title,
-            bio: m.subtitle,
-            image: m.image || null,
-            displayOrder: i,
-          },
-        });
-      }
-      members = await prisma.teamMember.findMany({
-        orderBy: { displayOrder: 'asc' },
-      });
-    }
 
     const formattedMembers = members.map((m: any) => ({
       id: m.id,
@@ -81,13 +39,10 @@ export async function GET() {
   } catch (error: any) {
     console.error('Error fetching team members:', error);
     return NextResponse.json({
-      success: true,
-      data: DEFAULT_TEAM.map((m: any) => ({
-        ...m,
-        initials: m.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2),
-      })),
+      success: false,
+      data: [],
       error: error?.message || String(error),
-      message: 'Fallback to default team members.',
+      message: 'Failed to fetch team members from database.',
     });
   }
 }
@@ -121,12 +76,14 @@ export async function POST(req: NextRequest) {
 
     const prisma = getPrisma();
     if (!prisma) {
-      return NextResponse.json({
-        success: false,
-        data: members,
-        message: 'DATABASE_URL not configured. Changes saved to local browser storage.',
-        storage: 'transient',
-      });
+      return NextResponse.json(
+        {
+          success: false,
+          data: members,
+          message: 'Neon Database (DATABASE_URL) is not configured. Changes could not be saved to NeonDB.',
+        },
+        { status: 400 }
+      );
     }
 
     try {
@@ -173,17 +130,18 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({
         success: true,
         data: formatted,
-        message: 'Team members synchronized with PostgreSQL database!',
+        message: 'Team members synchronized with Neon PostgreSQL database!',
         storage: 'postgres',
       });
     } catch (dbErr: any) {
-      console.warn('Database write warning in POST /api/team:', dbErr?.message || dbErr);
-      return NextResponse.json({
-        success: false,
-        data: members,
-        message: `Database sync error: ${dbErr?.message || String(dbErr)}. Saved to local storage.`,
-        storage: 'transient',
-      });
+      console.error('Database write error in POST /api/team:', dbErr);
+      return NextResponse.json(
+        {
+          success: false,
+          message: `Neon Database save failed: ${dbErr?.message || String(dbErr)}`,
+        },
+        { status: 500 }
+      );
     }
   } catch (error: any) {
     console.error('Error updating team members:', error);
