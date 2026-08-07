@@ -120,7 +120,7 @@ export default function ContactSection() {
                   <Linkedin className="w-4 h-4" />
                 </a>
                 <a
-                  href="https://twitter.com"
+                  href="https://x.com/StudioAdsPro5"
                   target="_blank"
                   rel="noreferrer"
                   className="w-10 h-10 rounded-full border border-neutral-300 dark:border-neutral-700 flex items-center justify-center text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white hover:border-black dark:hover:border-white transition-colors"
