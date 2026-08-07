@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <rect width="512" height="512" rx="120" fill="#09090b"/>
+  <defs>
+    <linearGradient id="sapFaviconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="60%" stop-color="#f4f4f5" />
+      <stop offset="100%" stop-color="#a1a1aa" />
+    </linearGradient>
+  </defs>
+  <!-- S Curve -->
+  <path d="M 150 90 C 95 90 45 120 45 175 C 45 240 150 230 150 280 C 150 310 100 320 50 300" fill="none" stroke="url(#sapFaviconGrad)" stroke-width="48" stroke-linecap="round" stroke-linejoin="round" />
+  <!-- A Delta Peak -->
+  <path d="M 190 315 L 270 90 L 350 315" fill="none" stroke="url(#sapFaviconGrad)" stroke-width="48" stroke-linecap="round" stroke-linejoin="round" />
+  <!-- P Stem & Loop -->
+  <path d="M 370 90 L 370 315" fill="none" stroke="url(#sapFaviconGrad)" stroke-width="48" stroke-linecap="round" />
+  <path d="M 370 90 L 435 90 C 480 90 495 120 495 155 C 495 190 480 220 435 220 L 370 220" fill="none" stroke="url(#sapFaviconGrad)" stroke-width="48" stroke-linecap="round" stroke-linejoin="round" />
+</svg>

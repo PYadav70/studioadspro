@@ -79,7 +79,7 @@ export default function ContactSection() {
                 </div>
                 <div>
                   <strong className="block text-sm font-semibold text-black dark:text-white">Email Us</strong>
-                  <span className="text-sm text-neutral-600 dark:text-neutral-400 font-mono">hello@studioadspro.com</span>
+                  <span className="text-sm text-neutral-600 dark:text-neutral-400 font-mono">studioadspro888@gmail.com</span>
                 </div>
               </a>
 

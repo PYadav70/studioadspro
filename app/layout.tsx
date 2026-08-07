@@ -8,6 +8,14 @@ export const metadata: Metadata = {
   description: 'StudioAdsPro designs, builds, and scales custom software, AI agents, mobile apps, and digital marketing for ambitious businesses.',
   keywords: ['software development', 'AI agents', 'mobile apps', 'digital marketing', 'full stack engineering', 'Next.js', 'StudioAdsPro'],
   authors: [{ name: 'StudioAdsPro Team' }],
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/app/icon.svg', type: 'image/svg+xml' },
+    ],
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
   viewport: 'width=device-width, initial-scale=1',
 };
 
