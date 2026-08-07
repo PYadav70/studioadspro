@@ -731,7 +731,7 @@ export default function TeamSection() {
                   <button
                     type="button"
                     onClick={handleSaveMember}
-                    className="px-5 py-2 rounded-xl bg-black dark:bg-white text-white dark:text-black text-xs font-bold hover:opacity-90 transition-opacity"
+                    className="px-5 py-2 rounded-xl cursor-pointer bg-black dark:bg-white text-white dark:text-black text-xs font-bold hover:opacity-90 transition-opacity"
                   >
                     Save Changes
                   </button>

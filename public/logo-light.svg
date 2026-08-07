@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 420" fill="none">
+  <defs>
+    <linearGradient id="sapLightGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#000000" />
+      <stop offset="50%" stop-color="#1f2937" />
+      <stop offset="100%" stop-color="#374151" />
+    </linearGradient>
+    <filter id="lightDropShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.2" />
+    </filter>
+  </defs>
+
+  <g filter="url(#lightDropShadow)">
+    <!-- SAP Monogram -->
+    <!-- S Curve -->
+    <path d="M 170 70 C 110 70 50 100 50 160 C 50 225 150 220 150 270 C 150 305 95 315 50 295" fill="none" stroke="url(#sapLightGrad)" stroke-width="48" stroke-linecap="round" stroke-linejoin="round" />
+    <!-- A Delta Peak -->
+    <path d="M 205 310 L 285 70 L 365 310" fill="none" stroke="url(#sapLightGrad)" stroke-width="48" stroke-linecap="round" stroke-linejoin="round" />
+    <!-- P Stem & Loop -->
+    <path d="M 385 70 L 385 310" fill="none" stroke="url(#sapLightGrad)" stroke-width="48" stroke-linecap="round" />
+    <path d="M 385 70 L 465 70 C 520 70 540 108 540 148 C 540 188 520 225 465 225 L 385 225" fill="none" stroke="url(#sapLightGrad)" stroke-width="48" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+
+  <!-- STUDIOADSPRO Text -->
+  <text x="300" y="380" font-family="'Space Grotesk', 'Inter', system-ui, sans-serif" font-weight="900" font-size="44" letter-spacing="6" text-anchor="middle" fill="#000000">STUDIOADSPRO</text>
+</svg>
