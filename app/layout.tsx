@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-// @ts-expect-error
+// @ts-ignore: side-effect import for global styles
 import './globals.css';
 import { ThemeProvider } from '@/components/ThemeProvider';
 
