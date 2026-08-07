@@ -6,7 +6,7 @@ import { getPrisma } from '@/lib/prisma';
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { name, email, company, service, budget, message } = body;
+    const { name, email,phone, company, service, budget, message } = body;
 
     if (!name || !email || !message) {
       return NextResponse.json(
@@ -21,6 +21,7 @@ export async function POST(req: NextRequest) {
     console.log('--- NEW CONTACT FORM SUBMISSION ---');
     console.log(`Recipient: ${recipientEmail}`);
     console.log(`From: ${name} (${email})`);
+     console.log(`Phone: ${phone || 'N/A'}`);
     console.log(`Company: ${company || 'N/A'}`);
     console.log(`Service: ${service || 'N/A'}`);
     console.log(`Budget: ${budget || 'N/A'}`);
@@ -84,6 +85,7 @@ export async function POST(req: NextRequest) {
             </h2>
             <p style="font-size: 15px;"><strong>Name:</strong> ${name}</p>
             <p style="font-size: 15px;"><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
+            <p style="font-size: 15px;"><strong>Mobile / Phone:</strong> ${phone || 'Not provided'}</p>
             <p style="font-size: 15px;"><strong>Company:</strong> ${company || 'Not provided'}</p>
             <p style="font-size: 15px;"><strong>Service Interested In:</strong> ${service || 'Not provided'}</p>
             <p style="font-size: 15px;"><strong>Budget Range:</strong> ${budget || 'Not provided'}</p>

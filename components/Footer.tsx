@@ -1,65 +1,31 @@
 'use client';
-
-import { useState } from 'react';
-import { Github, Check } from "lucide-react";
+import NewsletterSignup from '@/components/NewsletterSignup';
+import NavbarLogo from '@/components/NavbarLogo';
+import { Github } from 'lucide-react';
 
 export default function Footer() {
-  const [email, setEmail] = useState('');
-  const [subscribed, setSubscribed] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email.trim()) {
-      setSubscribed(true);
-      setTimeout(() => setSubscribed(false), 4000);
-      setEmail('');
-    }
-  };
-
   return (
-    <footer className="bg-[#f5f5f4] dark:bg-neutral-950 border-t border-black dark:border-neutral-800 pt-16 transition-colors duration-300">
+    <footer className="bg-[#f5f5f4] dark:bg-neutral-950 border-t border-black dark:border-neutral-800 pt-12 sm:pt-16 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        {/* Prominent Lead Generation Newsletter Banner */}
+        <div className="mb-14">
+          {/* <NewsletterSignup /> */}
+        </div>
+
         {/* Top Row */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-10 items-start">
           {/* Brand Column */}
-          <div>
-            <div className="flex items-center gap-2.5 mb-5">
-              <div className="w-[34px] h-[34px] rounded-lg bg-black dark:bg-white text-white dark:text-black flex items-center justify-center font-bold text-[13px] tracking-tight shrink-0">
-                SA
-              </div>
-              <span className="text-xl font-bold text-black dark:text-white tracking-tight">
-                Studio&nbsp;AdsPro
-              </span>
+          <div className="lg:col-span-2">
+            <div className="mb-5 overflow-visible">
+              <NavbarLogo />
             </div>
 
-            <p className="text-[14.5px] leading-relaxed text-neutral-500 dark:text-neutral-400 max-w-[260px] mb-6">
+            <p className="text-[14.5px] leading-relaxed text-neutral-500 dark:text-neutral-400 max-w-[280px] mb-6">
               A digital engineering studio building software and AI products for
               growing businesses.
             </p>
 
-            <form onSubmit={handleSubmit} className="flex gap-2.5 max-w-[400px] relative">
-              <input
-                type="email"
-                required
-                placeholder="you@company.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 min-w-0 px-4 py-3 rounded-[10px] border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-sm text-black dark:text-white placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white transition-colors"
-              />
-              <button
-                type="submit"
-                className="px-5 py-3 rounded-[10px] bg-black dark:bg-white text-white dark:text-black font-semibold text-sm whitespace-nowrap hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors cursor-pointer flex items-center gap-1.5"
-              >
-                {subscribed ? (
-                  <>
-                    <Check className="w-4 h-4 text-emerald-400 dark:text-emerald-600" />
-                    <span>Subscribed</span>
-                  </>
-                ) : (
-                  'Subscribe'
-                )}
-              </button>
-            </form>
+            <NewsletterSignup compact />
           </div>
 
           {/* Company */}
@@ -298,7 +264,7 @@ export default function Footer() {
 
             {/* X */}
             <a
-              href="https://twitter.com"
+              href="https://x.com/StudioAdsPro5"
               target="_blank"
               rel="noreferrer"
               aria-label="X"

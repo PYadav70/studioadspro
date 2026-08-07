@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'motion/react';
-import { Mail, MapPin, Clock, Send, CheckCircle2, Linkedin, Twitter, Github } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, Send, CheckCircle2, Linkedin, Twitter, Github } from 'lucide-react';
 
 export default function ContactSection() {
   const [submitted, setSubmitted] = useState(false);
@@ -12,6 +12,7 @@ export default function ContactSection() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     company: '',
     service: '',
     budget: '',
@@ -71,7 +72,7 @@ export default function ContactSection() {
 
             <div className="space-y-6 mb-10">
               <a
-                href="mailto:hello@studioadspro.com"
+                href="mailto:studioadspro888@gmail.com"
                 className="flex items-start gap-4 p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50/60 dark:bg-neutral-900/60 hover:bg-neutral-100/80 dark:hover:bg-neutral-900 transition-colors group"
               >
                 <div className="p-2.5 rounded-lg bg-black dark:bg-white text-white dark:text-black shrink-0">
@@ -80,6 +81,19 @@ export default function ContactSection() {
                 <div>
                   <strong className="block text-sm font-semibold text-black dark:text-white">Email Us</strong>
                   <span className="text-sm text-neutral-600 dark:text-neutral-400 font-mono">studioadspro888@gmail.com</span>
+                </div>
+              </a>
+
+              <a
+                href="tel:+919876543210"
+                className="flex items-start gap-4 p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50/60 dark:bg-neutral-900/60 hover:bg-neutral-100/80 dark:hover:bg-neutral-900 transition-colors group"
+              >
+                <div className="p-2.5 rounded-lg bg-black dark:bg-white text-white dark:text-black shrink-0">
+                  <Phone className="w-5 h-5" />
+                </div>
+                <div>
+                  <strong className="block text-sm font-semibold text-black dark:text-white">Mobile / Phone</strong>
+                  <span className="text-sm text-neutral-600 dark:text-neutral-400 font-mono">+91 98765 43210</span>
                 </div>
               </a>
 
@@ -185,6 +199,19 @@ export default function ContactSection() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
+                    <label htmlFor="cf-phone" className="block font-mono text-xs uppercase tracking-wider text-neutral-600 dark:text-neutral-400 mb-2 font-medium">
+                      Mobile Number
+                    </label>
+                    <input
+                      id="cf-phone"
+                      type="tel"
+                      placeholder="+91 98765 43210"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      className="w-full px-4 py-3 rounded-lg bg-white dark:bg-neutral-950 border border-neutral-300 dark:border-neutral-700 text-sm text-black dark:text-white focus:outline-hidden focus:border-black dark:focus:border-white focus:ring-1 focus:ring-black dark:focus:ring-white"
+                    />
+                  </div>
+                  <div>
                     <label htmlFor="cf-company" className="block font-mono text-xs uppercase tracking-wider text-neutral-600 dark:text-neutral-400 mb-2 font-medium">
                       Company / Organization
                     </label>
@@ -197,6 +224,8 @@ export default function ContactSection() {
                       className="w-full px-4 py-3 rounded-lg bg-white dark:bg-neutral-950 border border-neutral-300 dark:border-neutral-700 text-sm text-black dark:text-white focus:outline-hidden focus:border-black dark:focus:border-white focus:ring-1 focus:ring-black dark:focus:ring-white"
                     />
                   </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
                     <label htmlFor="cf-service" className="block font-mono text-xs uppercase tracking-wider text-neutral-600 dark:text-neutral-400 mb-2 font-medium">
                       Primary Service Interested In
@@ -216,24 +245,24 @@ export default function ContactSection() {
                       <option>Video Editing & Graphic Design</option>
                     </select>
                   </div>
-                </div>
 
-                <div>
-                  <label htmlFor="cf-budget" className="block font-mono text-xs uppercase tracking-wider text-neutral-600 dark:text-neutral-400 mb-2 font-medium">
-                    Budget Range
-                  </label>
-                  <select
-                    id="cf-budget"
-                    value={formData.budget}
-                    onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg bg-white dark:bg-neutral-950 border border-neutral-300 dark:border-neutral-700 text-sm text-black dark:text-white focus:outline-hidden focus:border-black dark:focus:border-white focus:ring-1 focus:ring-black dark:focus:ring-white"
-                  >
-                    <option value="">Select budget range</option>
-                    <option>Under ₹25,000</option>
-                    <option>₹25,000 – ₹75,000</option>
-                    <option>₹75,000 – ₹2,00,000</option>
-                    <option>₹2,00,000+</option>
-                  </select>
+                  <div>
+                    <label htmlFor="cf-budget" className="block font-mono text-xs uppercase tracking-wider text-neutral-600 dark:text-neutral-400 mb-2 font-medium">
+                      Budget Range
+                    </label>
+                    <select
+                      id="cf-budget"
+                      value={formData.budget}
+                      onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
+                      className="w-full px-4 py-3 rounded-lg bg-white dark:bg-neutral-950 border border-neutral-300 dark:border-neutral-700 text-sm text-black dark:text-white focus:outline-hidden focus:border-black dark:focus:border-white focus:ring-1 focus:ring-black dark:focus:ring-white"
+                    >
+                      <option value="">Select budget range</option>
+                      <option>Under ₹25,000</option>
+                      <option>₹25,000 – ₹75,000</option>
+                      <option>₹75,000 – ₹2,00,000</option>
+                      <option>₹2,00,000+</option>
+                    </select>
+                  </div>
                 </div>
 
                 <div>

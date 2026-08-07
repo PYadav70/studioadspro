@@ -65,11 +65,11 @@ export default function Hero() {
             {/* Quick Stats Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-6 border-t border-neutral-200 w-full">
               <div>
-                <span className="block font-sans text-2xl font-bold text-black">120+</span>
+                <span className="block font-sans text-2xl font-bold text-black">25+</span>
                 <span className="font-mono text-[11px] text-neutral-500 uppercase tracking-wide">Projects Delivered</span>
               </div>
               <div>
-                <span className="block font-sans text-2xl font-bold text-black">40+</span>
+                <span className="block font-sans text-2xl font-bold text-black">20+</span>
                 <span className="font-mono text-[11px] text-neutral-500 uppercase tracking-wide">Happy Clients</span>
               </div>
               <div>

@@ -39,14 +39,14 @@ model TeamMember {
   @@map("team_members")
 }
 
-// model NewsletterSubscriber {
-//   id        String   @id @default(cuid())
-//   email     String   @unique
-//   status    String   @default("active")
-//   createdAt DateTime @default(now())
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  status    String   @default("active")
+  createdAt DateTime @default(now())
 
-//   @@map("newsletter_subscribers")
-// }
+  @@map("newsletter_subscribers")
+}
 
 model ContactLead {
   id        String   @id @default(cuid())

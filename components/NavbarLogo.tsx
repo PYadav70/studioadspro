@@ -20,10 +20,10 @@ export default function NavbarLogo({ className = '' }: NavbarLogoProps) {
       >
         {/* ================= LIGHT THEME LOGO ================= */}
         <div className="block dark:hidden transition-all duration-300">
-          <div className="flex items-center gap-2.5 sm:gap-3.5">
+          <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
             {/* SAP Emblem Light */}
             <svg
-              className="h-9 sm:h-10 w-auto transform group-hover:scale-[1.03] transition-transform duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.18)]"
+              className="h-8 sm:h-9 w-auto shrink-0 transform group-hover:scale-[1.03] transition-transform duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.18)]"
               viewBox="0 0 540 320"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -78,16 +78,16 @@ export default function NavbarLogo({ className = '' }: NavbarLogoProps) {
             </svg>
 
             {/* Typography Section */}
-            <div className="flex flex-col justify-center">
-              <div className="flex items-center gap-1.5">
-                <span className="font-['Space_Grotesk'] font-black text-xl sm:text-2xl tracking-tighter text-black leading-none">
+            <div className="flex flex-col justify-center min-w-[160px]">
+              <div className="flex items-center gap-1.5 flex-wrap sm:flex-nowrap">
+                <span className="font-['Space_Grotesk'] font-black text-lg sm:text-xl tracking-tight text-black leading-none whitespace-nowrap">
                   STUDIO<span className="text-neutral-600 font-extrabold">ADSPRO</span>
                 </span>
-                <span className="px-1.5 py-0.5 rounded font-mono text-[9px] font-extrabold uppercase tracking-widest bg-black text-white leading-none shadow-xs">
+                <span className="px-1.5 py-0.5 rounded font-mono text-[8.5px] font-extrabold uppercase tracking-widest bg-black text-white leading-none shadow-xs shrink-0">
                   AGENCY
                 </span>
               </div>
-              <span className="font-mono text-[9px] sm:text-[9.5px] text-neutral-500 tracking-wider uppercase font-semibold mt-0.5">
+              <span className="font-mono text-[8.5px] sm:text-[9px] text-neutral-500 tracking-wider uppercase font-semibold mt-1 whitespace-nowrap">
                 Digital Marketing &amp; Dev
               </span>
             </div>
@@ -96,10 +96,10 @@ export default function NavbarLogo({ className = '' }: NavbarLogoProps) {
 
         {/* ================= DARK THEME LOGO ================= */}
         <div className="hidden dark:block transition-all duration-300">
-          <div className="flex items-center gap-2.5 sm:gap-3.5">
+          <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
             {/* SAP Emblem Dark (Silver / White Metallic) */}
             <svg
-              className="h-9 sm:h-10 w-auto transform group-hover:scale-[1.03] transition-transform duration-300 drop-shadow-[0_0_14px_rgba(255,255,255,0.35)]"
+              className="h-8 sm:h-9 w-auto shrink-0 transform group-hover:scale-[1.03] transition-transform duration-300 drop-shadow-[0_0_14px_rgba(255,255,255,0.35)]"
               viewBox="0 0 540 320"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -154,16 +154,16 @@ export default function NavbarLogo({ className = '' }: NavbarLogoProps) {
             </svg>
 
             {/* Typography Section */}
-            <div className="flex flex-col justify-center">
-              <div className="flex items-center gap-1.5">
-                <span className="font-['Space_Grotesk'] font-black text-xl sm:text-2xl tracking-tighter text-white leading-none drop-shadow-sm">
+            <div className="flex flex-col justify-center min-w-[160px]">
+              <div className="flex items-center gap-1.5 flex-wrap sm:flex-nowrap">
+                <span className="font-['Space_Grotesk'] font-black text-lg sm:text-xl tracking-tight text-white leading-none drop-shadow-sm whitespace-nowrap">
                   STUDIO<span className="text-neutral-300 font-extrabold">ADSPRO</span>
                 </span>
-                <span className="px-1.5 py-0.5 rounded font-mono text-[9px] font-extrabold uppercase tracking-widest bg-white text-black leading-none shadow-xs">
+                <span className="px-1.5 py-0.5 rounded font-mono text-[8.5px] font-extrabold uppercase tracking-widest bg-white text-black leading-none shadow-xs shrink-0">
                   AGENCY
                 </span>
               </div>
-              <span className="font-mono text-[9px] sm:text-[9.5px] text-neutral-400 tracking-wider uppercase font-semibold mt-0.5">
+              <span className="font-mono text-[8.5px] sm:text-[9px] text-neutral-400 tracking-wider uppercase font-semibold mt-1 whitespace-nowrap">
                 Digital Marketing &amp; Dev
               </span>
             </div>
