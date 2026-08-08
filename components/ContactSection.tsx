@@ -67,7 +67,7 @@ export default function ContactSection() {
               Ready to build something extraordinary?
             </h2>
             <p className="text-neutral-600 dark:text-neutral-400 text-base mb-8 leading-relaxed">
-              Tell us about your project — we&apos;ll reply with a scoping plan and itemized proposal within one business day.
+              Tell us about your project we&apos;ll reply with a scoping plan and itemized proposal within one business day.
             </p>
 
             <div className="space-y-6 mb-10">
