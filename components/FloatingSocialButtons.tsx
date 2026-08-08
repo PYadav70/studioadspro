@@ -11,7 +11,7 @@ interface FloatingSocialButtonsProps {
 }
 
 export default function FloatingSocialButtons({
-  whatsappNumber = '919876543210',
+  whatsappNumber = '+919151781802',
   whatsappMessage = 'Hello StudioAdsPro! I would like to inquire about your services.',
   instagramUsername = 'studioadspro',
 }: FloatingSocialButtonsProps) {
