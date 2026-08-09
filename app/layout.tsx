@@ -3,7 +3,6 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import Script from 'next/script';
 import { ThemeProvider } from '@/components/ThemeProvider';
-import PixelPageView from '@/components/PixelPageView';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.studioadspro.com'),
@@ -113,8 +112,6 @@ export default function RootLayout({
       >
         <ThemeProvider>{children}</ThemeProvider>
 
-        <PixelPageView />
-
         <Script id="meta-pixel" strategy="afterInteractive">
           {`
             !function(f,b,e,v,n,t,s)
@@ -132,7 +129,7 @@ export default function RootLayout({
             s.parentNode.insertBefore(t,s)}
             (window, document,'script',
             'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '${process.env.NEXT_PUBLIC_META_PIXEL_ID}');
+            fbq('init', '1567182034815621');
             fbq('track', 'PageView');
           `}
         </Script>
@@ -141,7 +138,7 @@ export default function RootLayout({
             height="1"
             width="1"
             style={{ display: 'none' }}
-            src={`https://www.facebook.com/tr?id=${process.env.NEXT_PUBLIC_META_PIXEL_ID}&ev=PageView&noscript=1`}
+            src="https://www.facebook.com/tr?id=1567182034815621&ev=PageView&noscript=1"
             alt=""
           />
         </noscript>
