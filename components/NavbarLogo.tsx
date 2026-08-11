@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { motion } from 'motion/react';
 
 interface NavbarLogoProps {
@@ -8,8 +9,8 @@ interface NavbarLogoProps {
 
 export default function NavbarLogo({ className = '' }: NavbarLogoProps) {
   return (
-    <a
-      href="#home"
+    <Link
+      href="/"
       className={`inline-flex items-center gap-2 sm:gap-3 group select-none ${className}`}
       aria-label="StudioAdsPro Home"
     >
@@ -170,7 +171,7 @@ export default function NavbarLogo({ className = '' }: NavbarLogoProps) {
           </div>
         </div>
       </motion.div>
-    </a>
+    </Link>
   );
 }
 

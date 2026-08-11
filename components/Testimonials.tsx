@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion } from 'motion/react';
 import { Play, Pause, Volume2, VolumeX, Star } from 'lucide-react';
 import ImageWithSkeleton from './ImageWithSkeleton';
@@ -19,6 +19,35 @@ interface Testimonial {
 export default function Testimonials() {
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [muted, setMuted] = useState(false);
+
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const [activeCarouselIndex, setActiveCarouselIndex] = useState<number>(0);
+
+  const handleCarouselScroll = () => {
+    if (!carouselRef.current) return;
+    const container = carouselRef.current;
+    const scrollLeft = container.scrollLeft;
+    const cardWidth = container.firstElementChild
+      ? (container.firstElementChild as HTMLElement).offsetWidth + 16
+      : 280;
+    const index = Math.round(scrollLeft / cardWidth);
+    if (index >= 0 && index < testimonials.length) {
+      setActiveCarouselIndex(index);
+    }
+  };
+
+  const scrollToIndex = (index: number) => {
+    if (!carouselRef.current) return;
+    const container = carouselRef.current;
+    const cardWidth = container.firstElementChild
+      ? (container.firstElementChild as HTMLElement).offsetWidth + 16
+      : 280;
+    container.scrollTo({
+      left: index * cardWidth,
+      behavior: 'smooth',
+    });
+    setActiveCarouselIndex(index);
+  };
 
   const testimonials: Testimonial[] = [
     {
@@ -94,8 +123,113 @@ export default function Testimonials() {
           </p>
         </motion.div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Mobile / Responsive Carousel */}
+        <div className="block md:hidden my-6">
+          <div
+            ref={carouselRef}
+            onScroll={handleCarouselScroll}
+            className="flex gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar px-1 py-2 -mx-4 px-4 justify-start"
+          >
+            {testimonials.map((item) => {
+              const isPlaying = playingId === item.id;
+              return (
+                <div
+                  key={item.id}
+                  className="w-[82vw] max-w-[320px] shrink-0 snap-center bg-black border border-neutral-800 rounded-2xl overflow-hidden flex flex-col justify-between group hover:border-neutral-600 transition-all"
+                >
+                  {/* Visual Video Simulation Thumbnail */}
+                  <div className="relative aspect-3/4 bg-neutral-950 flex items-center justify-center border-b border-neutral-800 overflow-hidden">
+                    <ImageWithSkeleton
+                      src={item.avatarUrl}
+                      alt={item.company}
+                      aspectRatio="aspect-[3/4]"
+                      containerClassName="w-full h-full absolute inset-0 opacity-40 group-hover:opacity-55 transition-opacity"
+                      className="object-cover"
+                    />
+                    
+                    {/* Subtle dark gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+
+                    {/* Rating Stars */}
+                    <div className="absolute top-4 left-4 flex gap-1">
+                      {Array.from({ length: item.stars }).map((_, i) => (
+                        <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                      ))}
+                    </div>
+
+                    {/* Play Button */}
+                    <button
+                      onClick={() => togglePlay(item.id)}
+                      className="absolute top-4 right-4 w-9 h-9 rounded-full bg-white text-black flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-transform cursor-pointer"
+                      aria-label={isPlaying ? 'Pause testimonial audio' : 'Play testimonial audio'}
+                    >
+                      {isPlaying ? <Pause className="w-4 h-4 fill-black" /> : <Play className="w-4 h-4 fill-black ml-0.5" />}
+                    </button>
+
+                    {/* Mute Button */}
+                    <button
+                      onClick={() => setMuted(!muted)}
+                      className="absolute top-4 right-15 w-8 h-8 rounded-full bg-neutral-800 text-white flex items-center justify-center hover:bg-neutral-700 transition-colors cursor-pointer"
+                      aria-label={muted ? 'Unmute' : 'Mute'}
+                    >
+                      {muted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
+                    </button>
+
+                    {/* Waveform indicator when playing */}
+                    {isPlaying && (
+                      <div className="absolute inset-x-0 bottom-16 flex items-center justify-center gap-1 h-6">
+                        <span className="w-1 h-4 bg-emerald-400 animate-pulse" />
+                        <span className="w-1 h-6 bg-emerald-400 animate-bounce" />
+                        <span className="w-1 h-3 bg-emerald-400 animate-pulse" />
+                        <span className="w-1 h-5 bg-emerald-400 animate-bounce" />
+                      </div>
+                    )}
+
+                    {/* Bottom overlay badge */}
+                    <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/90 via-black/60 to-transparent text-left">
+                      <strong className="block text-white text-sm font-semibold">{item.role}</strong>
+                      <span className="text-xs text-neutral-400 font-mono">{item.company}</span>
+                    </div>
+                  </div>
+
+                  {/* Quote Text */}
+                  <div className="p-5 flex-1 flex flex-col justify-between bg-neutral-900/60">
+                    <p className="text-xs text-neutral-300 leading-relaxed italic mb-4">
+                      &ldquo;{item.quote}&rdquo;
+                    </p>
+                    <div className="pt-3 border-t border-neutral-800/80 flex items-center justify-between text-xs font-mono text-emerald-400 font-semibold">
+                      <span>{item.impact}</span>
+                      <span className="text-neutral-500">Verified</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Dots Indicator */}
+          <div className="flex items-center justify-center gap-1.5 mt-6">
+            {testimonials.map((_, idx) => {
+              const isActive = idx === activeCarouselIndex;
+              return (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => scrollToIndex(idx)}
+                  className={`transition-all duration-300 rounded-full cursor-pointer ${
+                    isActive
+                      ? 'w-7 h-2 bg-white'
+                      : 'w-2 h-2 bg-neutral-700 hover:bg-neutral-500'
+                  }`}
+                  aria-label={`Go to testimonial ${idx + 1}`}
+                />
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Desktop Grid */}
+        <div className="hidden md:grid grid-cols-2 lg:grid-cols-4 gap-6">
           {testimonials.map((item, idx) => {
             const isPlaying = playingId === item.id;
             return (

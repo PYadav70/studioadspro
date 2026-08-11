@@ -47,6 +47,34 @@ export default function TeamSection() {
   });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const [activeCarouselIndex, setActiveCarouselIndex] = useState<number>(0);
+
+  const handleCarouselScroll = () => {
+    if (!carouselRef.current) return;
+    const container = carouselRef.current;
+    const scrollLeft = container.scrollLeft;
+    const cardWidth = container.firstElementChild
+      ? (container.firstElementChild as HTMLElement).offsetWidth + 16
+      : 300;
+    const index = Math.round(scrollLeft / cardWidth);
+    if (index >= 0 && index < members.length) {
+      setActiveCarouselIndex(index);
+    }
+  };
+
+  const scrollToIndex = (index: number) => {
+    if (!carouselRef.current) return;
+    const container = carouselRef.current;
+    const cardWidth = container.firstElementChild
+      ? (container.firstElementChild as HTMLElement).offsetWidth + 16
+      : 300;
+    container.scrollTo({
+      left: index * cardWidth,
+      behavior: 'smooth',
+    });
+    setActiveCarouselIndex(index);
+  };
 
   // Sync latest team members from database via API
   useEffect(() => {
@@ -225,29 +253,27 @@ export default function TeamSection() {
         setModalError(null);
         showToast('Uploaded photo to Cloudinary!');
       } else {
-        const errorMsg = data.message || 'Cloudinary upload failed.';
-        // Auto-fallback to local crystal-clear HD image (1600x1600 @ 0.95 quality)
+        // Fallback to local HD optimization if Cloudinary is unconfigured or returns an error
         const reader = new FileReader();
         reader.onload = async () => {
           if (typeof reader.result === 'string') {
             const compressed = await compressImage(reader.result, 1600, 1600, 0.95);
             setPreviewUrl(compressed);
-            showToast('Loaded photo with HD local optimization');
-            setModalError(`Cloudinary Note: ${errorMsg}. Photo loaded with HD local optimization so you can save.`);
+            setModalError(null);
+            showToast('Photo loaded with local HD optimization!');
           }
         };
         reader.readAsDataURL(file);
       }
     } catch (err: any) {
       console.error('Cloudinary upload error:', err);
-      const errorMsg = err?.message || 'Server error';
       const reader = new FileReader();
       reader.onload = async () => {
         if (typeof reader.result === 'string') {
           const compressed = await compressImage(reader.result, 1600, 1600, 0.95);
           setPreviewUrl(compressed);
-          showToast('Loaded photo with HD local optimization');
-          setModalError(`Cloudinary Note: ${errorMsg}. Photo loaded with HD local optimization.`);
+          setModalError(null);
+          showToast('Photo loaded with local HD optimization!');
         }
       };
       reader.readAsDataURL(file);
@@ -379,24 +405,23 @@ export default function TeamSection() {
           </div>
         )}
 
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 gap-4">
-          <div className="max-w-2xl">
+          <div className="flex flex-col md:flex-row justify-between mb-8 sm:mb-16 gap-4 text-center md:text-left items-center md:items-start">
+          <div className="max-w-2xl flex flex-col items-center md:items-start">
             <div
               onClick={() => {
                 if (!isAdminMode) {
                   setShowAdminPinModal(true);
                 }
               }}
-              className="inline-flex items-center gap-2 font-mono text-xs tracking-widest uppercase text-black dark:text-white mb-3 cursor-pointer select-none group/teamtag"
+              className="inline-flex items-center px-4 py-1.5 rounded-full bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-xs font-semibold text-neutral-600 dark:text-neutral-400 mb-3 cursor-pointer select-none hover:border-black dark:hover:border-white transition-all"
               title="Team"
             >
-              <span className="w-2 h-2 rounded-full bg-black dark:bg-white group-hover/teamtag:scale-125 transition-transform" />
-              Team
+              Our Team
             </div>
             <h2 className="font-['Space_Grotesk'] text-3xl sm:text-4xl font-bold text-black dark:text-white tracking-tight">
-              The people behind the build.
+              Team Behind Wonders
             </h2>
-            <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-2">
+            <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-2 hidden sm:block">
               Cross-functional team of engineers, designers, and digital strategists.
             </p>
           </div>
@@ -435,8 +460,94 @@ export default function TeamSection() {
           </div>
         </div>
 
-        {/* Team Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-5">
+        {/* Mobile / Responsive Carousel */}
+        <div className="block md:hidden my-6">
+          {isLoading && members.length === 0 ? (
+            <div className="w-full aspect-[3/4] max-w-[320px] mx-auto rounded-3xl bg-neutral-200 dark:bg-neutral-800 animate-pulse" />
+          ) : members.length === 0 ? (
+            <div className="py-12 px-4 text-center rounded-3xl border border-dashed border-neutral-300 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/30">
+              <User className="w-10 h-10 text-neutral-400 mx-auto mb-3" />
+              <h3 className="text-sm font-bold text-black dark:text-white">No Team Members Found</h3>
+            </div>
+          ) : (
+            <>
+              {/* Carousel Scroll Container */}
+              <div
+                ref={carouselRef}
+                onScroll={handleCarouselScroll}
+                className="flex gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar px-6 py-2 -mx-4 justify-start"
+              >
+                {members.map((member) => (
+                  <div
+                    key={member.id}
+                    className="w-[82vw] max-w-[320px] shrink-0 snap-center relative rounded-3xl overflow-hidden aspect-[3/4] border border-neutral-200/80 dark:border-neutral-800/80 shadow-xl bg-neutral-100 dark:bg-neutral-900 group transition-all"
+                  >
+                    {member.image ? (
+                      <Image
+                        src={member.image}
+                        alt={member.title || member.name}
+                        fill
+                        sizes="82vw"
+                        quality={95}
+                        className="object-cover object-center"
+                        referrerPolicy="no-referrer"
+                        unoptimized={Boolean(member.image.startsWith('data:'))}
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center font-['Space_Grotesk'] text-4xl font-bold text-neutral-400 dark:text-neutral-600">
+                        {member.initials}
+                      </div>
+                    )}
+
+                    {/* Floating Name Overlay Pill */}
+                    <div className="absolute bottom-4 left-4 right-4 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md rounded-2xl py-3 px-4 text-center shadow-lg border border-neutral-200/80 dark:border-neutral-800/80">
+                      <h3 className="font-['Space_Grotesk'] font-bold text-base text-black dark:text-white leading-tight">
+                        {member.name}
+                      </h3>
+                      <p className="text-xs font-medium text-neutral-500 dark:text-neutral-400 mt-0.5">
+                        {member.title}
+                      </p>
+                    </div>
+
+                    {/* Admin edit button when logged in */}
+                    {isAdminMode && (
+                      <button
+                        onClick={() => openEditModal(member)}
+                        className="absolute top-3 right-3 p-2.5 rounded-full bg-black/70 text-white backdrop-blur-md hover:scale-105 transition-transform"
+                        title="Edit Member"
+                      >
+                        <Camera className="w-4 h-4" />
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Dots Indicator */}
+              <div className="flex items-center justify-center gap-1.5 mt-6">
+                {members.map((m, idx) => {
+                  const isActive = idx === activeCarouselIndex;
+                  return (
+                    <button
+                      key={m.id}
+                      type="button"
+                      onClick={() => scrollToIndex(idx)}
+                      className={`transition-all duration-300 rounded-full cursor-pointer ${
+                        isActive
+                          ? 'w-7 h-2 bg-black dark:bg-white'
+                          : 'w-2 h-2 bg-neutral-300 dark:bg-neutral-700 hover:bg-neutral-400'
+                      }`}
+                      aria-label={`Go to slide ${idx + 1}`}
+                    />
+                  );
+                })}
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Desktop Team Grid */}
+        <div className="hidden md:grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-5">
           {isLoading && members.length === 0 ? (
             Array.from({ length: 3 }).map((_, idx) => (
               <div key={idx} className="flex flex-col animate-pulse">
@@ -731,7 +842,7 @@ export default function TeamSection() {
                   <button
                     type="button"
                     onClick={handleSaveMember}
-                    className="px-5 py-2 rounded-xl cursor-pointer bg-black dark:bg-white text-white dark:text-black text-xs font-bold hover:opacity-90 transition-opacity"
+                    className="px-5 py-2 rounded-xl bg-black dark:bg-white text-white dark:text-black text-xs font-bold hover:opacity-90 transition-opacity"
                   >
                     Save Changes
                   </button>

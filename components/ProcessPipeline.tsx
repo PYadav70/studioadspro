@@ -1,11 +1,38 @@
 'use client';
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { useState, useRef } from 'react';
+import { motion } from 'motion/react';
 import { Search, Compass, Palette, Code, ShieldCheck, Rocket, CheckCircle } from 'lucide-react';
 
 export default function ProcessPipeline() {
   const [activeStep, setActiveStep] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  const handleCarouselScroll = () => {
+    if (!carouselRef.current) return;
+    const container = carouselRef.current;
+    const scrollLeft = container.scrollLeft;
+    const cardWidth = container.firstElementChild
+      ? (container.firstElementChild as HTMLElement).offsetWidth + 16
+      : 160;
+    const index = Math.round(scrollLeft / cardWidth);
+    if (index >= 0 && index < steps.length && index !== activeStep) {
+      setActiveStep(index);
+    }
+  };
+
+  const scrollToIndex = (index: number) => {
+    setActiveStep(index);
+    if (!carouselRef.current) return;
+    const container = carouselRef.current;
+    const cardWidth = container.firstElementChild
+      ? (container.firstElementChild as HTMLElement).offsetWidth + 16
+      : 160;
+    container.scrollTo({
+      left: index * cardWidth,
+      behavior: 'smooth',
+    });
+  };
 
   const steps = [
     {
@@ -88,12 +115,74 @@ export default function ProcessPipeline() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-30px' }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="relative mb-12"
+          className="relative mb-8 sm:mb-12"
         >
           {/* Progress track background */}
           <div className="hidden lg:block absolute top-[22px] left-8 right-8 h-0.5 bg-neutral-200 dark:bg-neutral-800 z-0" />
           
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 relative z-10">
+          {/* Mobile Carousel */}
+          <div className="block md:hidden">
+            <div
+              ref={carouselRef}
+              onScroll={handleCarouselScroll}
+              className="flex gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar py-2 -mx-4 px-4 justify-start"
+            >
+              {steps.map((step, idx) => {
+                const isSelected = activeStep === idx;
+                return (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => scrollToIndex(idx)}
+                    className={`w-[60vw] max-w-[240px] shrink-0 snap-center flex flex-col items-center text-center p-5 rounded-2xl border transition-all cursor-pointer ${
+                      isSelected
+                        ? 'bg-black dark:bg-white text-white dark:text-black border-black dark:border-white shadow-lg scale-[1.02]'
+                        : 'bg-white dark:bg-neutral-900 text-neutral-800 dark:text-neutral-200 border-neutral-200 dark:border-neutral-800'
+                    }`}
+                  >
+                    <div
+                      className={`w-12 h-12 rounded-full flex items-center justify-center font-mono font-bold text-base mb-3 transition-colors ${
+                        isSelected
+                          ? 'bg-white dark:bg-black text-black dark:text-white'
+                          : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700'
+                      }`}
+                    >
+                      {step.num}
+                    </div>
+                    <h3 className="font-['Space_Grotesk'] font-bold text-base mb-1">
+                      {step.title}
+                    </h3>
+                    <span className={`text-xs font-mono ${isSelected ? 'text-neutral-300 dark:text-neutral-700' : 'text-neutral-500 dark:text-neutral-400'}`}>
+                      Step {idx + 1} of 6
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Dots Indicator */}
+            <div className="flex items-center justify-center gap-1.5 mt-5">
+              {steps.map((_, idx) => {
+                const isActive = idx === activeStep;
+                return (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => scrollToIndex(idx)}
+                    className={`transition-all duration-300 rounded-full cursor-pointer ${
+                      isActive
+                        ? 'w-7 h-2 bg-black dark:bg-white'
+                        : 'w-2 h-2 bg-neutral-300 dark:bg-neutral-700 hover:bg-neutral-400'
+                    }`}
+                    aria-label={`Go to step ${idx + 1}`}
+                  />
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Desktop Grid */}
+          <div className="hidden md:grid grid-cols-3 lg:grid-cols-6 gap-4 relative z-10">
             {steps.map((step, idx) => {
               const isSelected = activeStep === idx;
               return (

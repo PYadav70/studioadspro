@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Code2,
@@ -18,6 +18,34 @@ import {
 
 export default function Services() {
   const [selectedService, setSelectedService] = useState<number | null>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const [activeCarouselIndex, setActiveCarouselIndex] = useState<number>(0);
+
+  const handleCarouselScroll = () => {
+    if (!carouselRef.current) return;
+    const container = carouselRef.current;
+    const scrollLeft = container.scrollLeft;
+    const cardWidth = container.firstElementChild
+      ? (container.firstElementChild as HTMLElement).offsetWidth + 16
+      : 280;
+    const index = Math.round(scrollLeft / cardWidth);
+    if (index >= 0 && index < serviceList.length) {
+      setActiveCarouselIndex(index);
+    }
+  };
+
+  const scrollToIndex = (index: number) => {
+    if (!carouselRef.current) return;
+    const container = carouselRef.current;
+    const cardWidth = container.firstElementChild
+      ? (container.firstElementChild as HTMLElement).offsetWidth + 16
+      : 280;
+    container.scrollTo({
+      left: index * cardWidth,
+      behavior: 'smooth',
+    });
+    setActiveCarouselIndex(index);
+  };
 
   const serviceList = [
     {
@@ -94,8 +122,67 @@ export default function Services() {
           </p>
         </motion.div>
 
-        {/* Services Grid with Motion Stagger */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {/* Mobile / Responsive Carousel */}
+        <div className="block md:hidden my-6">
+          <div
+            ref={carouselRef}
+            onScroll={handleCarouselScroll}
+            className="flex gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar py-2 -mx-4 px-4 justify-start"
+          >
+            {serviceList.map((service, idx) => {
+              const Icon = service.icon;
+              return (
+                <div
+                  key={idx}
+                  onClick={() => setSelectedService(idx)}
+                  className="w-[82vw] max-w-[320px] shrink-0 snap-center bg-white dark:bg-neutral-950 border border-neutral-200/90 dark:border-neutral-800/90 rounded-2xl p-6 shadow-md transition-all group flex flex-col justify-between cursor-pointer active:scale-[0.99]"
+                >
+                  <div>
+                    <div className="w-12 h-12 rounded-xl bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 flex items-center justify-center text-black dark:text-white mb-5 group-hover:bg-black dark:group-hover:bg-white group-hover:text-white dark:group-hover:text-black transition-colors duration-300">
+                      <Icon className="w-6 h-6" />
+                    </div>
+                    <h3 className="font-['Space_Grotesk'] text-lg font-bold text-black dark:text-white mb-2.5">
+                      {service.title}
+                    </h3>
+                    <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                      {service.description}
+                    </p>
+                  </div>
+
+                  <div className="mt-6 pt-4 border-t border-neutral-100 dark:border-neutral-800 flex items-center justify-between text-xs font-mono text-neutral-400 dark:text-neutral-500 group-hover:text-black dark:group-hover:text-white transition-colors">
+                    <span>Service {String(idx + 1).padStart(2, '0')}</span>
+                    <span className="font-semibold flex items-center gap-1">
+                      Details <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Dots Indicator */}
+          <div className="flex items-center justify-center gap-1.5 mt-6">
+            {serviceList.map((_, idx) => {
+              const isActive = idx === activeCarouselIndex;
+              return (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => scrollToIndex(idx)}
+                  className={`transition-all duration-300 rounded-full cursor-pointer ${
+                    isActive
+                      ? 'w-7 h-2 bg-black dark:bg-white'
+                      : 'w-2 h-2 bg-neutral-300 dark:bg-neutral-700 hover:bg-neutral-400'
+                  }`}
+                  aria-label={`Go to service ${idx + 1}`}
+                />
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Desktop Services Grid */}
+        <div className="hidden md:grid grid-cols-2 lg:grid-cols-4 gap-5">
           {serviceList.map((service, idx) => {
             const Icon = service.icon;
             return (

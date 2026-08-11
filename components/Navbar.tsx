@@ -1,12 +1,19 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, ArrowRight } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import NavbarLogo from './NavbarLogo';
 
-export default function Navbar() {
+export interface NavbarProps {
+  activeSection?: string;
+  onSelectSection?: (section: any) => void;
+}
+
+export default function Navbar({ activeSection = 'all', onSelectSection }: NavbarProps) {
+  const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -18,14 +25,63 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Handle smooth scroll when navigating to a section hash from another page (e.g., /contact -> /#work)
+  useEffect(() => {
+    const handleHashScroll = () => {
+      if (typeof window !== 'undefined' && window.location.hash) {
+        const id = window.location.hash.replace('#', '');
+        const element = document.getElementById(id);
+        if (element) {
+          const yOffset = -80;
+          const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      }
+    };
+
+    handleHashScroll();
+    window.addEventListener('hashchange', handleHashScroll);
+    return () => window.removeEventListener('hashchange', handleHashScroll);
+  }, []);
+
   const navLinks = [
-    { name: 'Services', href: '#services' },
-    { name: 'Work', href: '#work' },
-    { name: 'Process', href: '#process' },
-    { name: 'Pricing', href: '#pricing' },
-    { name: 'FAQ', href: '#faq' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Services', href: '/#services', id: 'services' },
+    { name: 'Work', href: '/#work', id: 'work' },
+    { name: 'Process', href: '/#process', id: 'process' },
+    { name: 'Pricing', href: '/#pricing', id: 'pricing' },
+    { name: 'FAQ', href: '/#faq', id: 'faq' },
+    { name: 'Contact', href: '/contact', id: 'contact' },
   ];
+
+  const handleNavClick = (id: string, e: React.MouseEvent) => {
+    setMobileMenuOpen(false);
+
+    if (id === 'contact') {
+      e.preventDefault();
+      if (typeof window !== 'undefined' && window.location.pathname === '/contact') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        router.push('/contact');
+      }
+      return;
+    }
+
+    const element = typeof document !== 'undefined' ? document.getElementById(id) : null;
+
+    if (element) {
+      e.preventDefault();
+      const yOffset = -80;
+      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+      window.history.pushState(null, '', `#${id}`);
+      if (onSelectSection) {
+        onSelectSection(id);
+      }
+    } else {
+      e.preventDefault();
+      router.push(`/#${id}`);
+    }
+  };
 
   return (
     <header
@@ -39,17 +95,29 @@ export default function Navbar() {
         <NavbarLogo />
 
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              className="text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors relative group py-1"
-            >
-              {link.name}
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black dark:bg-white transition-all duration-200 group-hover:w-full" />
-            </a>
-          ))}
+        <div className="hidden md:flex items-center gap-7">
+          {navLinks.map((link) => {
+            const isActive = activeSection === link.id;
+            return (
+              <a
+                key={link.name}
+                href={link.href}
+                onClick={(e) => handleNavClick(link.id, e)}
+                className={`text-sm font-medium transition-colors relative group py-1 cursor-pointer ${
+                  isActive
+                    ? 'text-black dark:text-white font-bold'
+                    : 'text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white'
+                }`}
+              >
+                {link.name}
+                <span
+                  className={`absolute bottom-0 left-0 h-0.5 bg-black dark:bg-white transition-all duration-200 ${
+                    isActive ? 'w-full' : 'w-0 group-hover:w-full'
+                  }`}
+                />
+              </a>
+            );
+          })}
         </div>
 
         {/* Desktop CTA & Theme Switcher */}
@@ -60,6 +128,7 @@ export default function Navbar() {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             href="#contact"
+            onClick={(e) => handleNavClick('contact', e)}
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-black dark:bg-white text-white dark:text-black font-semibold text-sm hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-all shadow-xs"
           >
             <span>Book Free Consultation</span>
@@ -98,8 +167,12 @@ export default function Navbar() {
                 <a
                   key={link.name}
                   href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="py-3 text-base font-medium text-neutral-800 dark:text-neutral-200 hover:text-black dark:hover:text-white transition-colors"
+                  onClick={(e) => handleNavClick(link.id, e)}
+                  className={`py-3 text-base font-medium transition-colors ${
+                    activeSection === link.id
+                      ? 'text-black dark:text-white font-bold'
+                      : 'text-neutral-800 dark:text-neutral-200 hover:text-black dark:hover:text-white'
+                  }`}
                 >
                   {link.name}
                 </a>
@@ -107,7 +180,7 @@ export default function Navbar() {
             </div>
             <a
               href="#contact"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={(e) => handleNavClick('contact', e)}
               className="w-full mt-4 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-black dark:bg-white text-white dark:text-black text-base font-semibold hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-all text-center shadow-md"
             >
               <span>Book Free Consultation</span>
@@ -119,4 +192,3 @@ export default function Navbar() {
     </header>
   );
 }
-
