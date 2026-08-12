@@ -127,7 +127,7 @@ export default function Navbar({ activeSection = 'all', onSelectSection }: Navba
           <motion.a
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            href="#contact"
+            href="/contact"
             onClick={(e) => handleNavClick('contact', e)}
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-black dark:bg-white text-white dark:text-black font-semibold text-sm hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-all shadow-xs"
           >

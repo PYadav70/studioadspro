@@ -388,7 +388,7 @@ export default function PricingSection() {
         {/* CTA */}
         <div className="text-center">
           <a
-            href="#contact"
+            href="/contact"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white text-black font-bold text-base hover:bg-neutral-200 transition-colors shadow-xl"
           >
             <span>Book Free Consultation & Custom Quote</span>

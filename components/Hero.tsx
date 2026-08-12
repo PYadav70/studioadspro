@@ -46,7 +46,7 @@ export default function Hero() {
               <motion.a
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                href="#contact"
+                href="/contact"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-black dark:bg-white text-white dark:text-black font-semibold text-base hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-all shadow-md"
               >
                 <span>Book Free Consultation</span>
