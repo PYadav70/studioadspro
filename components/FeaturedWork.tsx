@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, ArrowUpRight } from 'lucide-react';
+import Script from 'next/script';
 import ImageWithSkeleton from './ImageWithSkeleton';
 
 interface CaseStudy {
@@ -166,10 +167,35 @@ export default function FeaturedWork() {
     ? caseStudies
     : caseStudies.filter((item) => item.category === filter);
 
+  // Portfolio structured data — each case study becomes an indexable
+  // CreativeWork entity linking back to the live client project.
+  const portfolioJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: caseStudies.map((item, idx) => ({
+      '@type': 'ListItem',
+      position: idx + 1,
+      item: {
+        '@type': 'CreativeWork',
+        name: item.title,
+        description: item.summary,
+        url: item.liveUrl,
+        image: `https://www.studioadspro.com${item.imgUrl}`,
+        creator: { '@id': 'https://www.studioadspro.com/#organization' },
+        about: item.tag,
+      },
+    })),
+  };
+
   return (
     <section id="work" className="py-16 sm:py-24 bg-neutral-100/60 border-t border-b border-neutral-200">
+      <Script
+        id="ld-portfolio"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(portfolioJsonLd) }}
+      />
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-        
+
         {/* Header & Filter Row */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -245,7 +271,7 @@ export default function FeaturedWork() {
                   <div className="border-b border-neutral-100 dark:border-neutral-800">
                     <ImageWithSkeleton
                       src={item.imgUrl}
-                      alt={item.title}
+                      alt={`${item.title} — ${item.tag} case study by StudioAdsPro`}
                       aspectRatio="aspect-[16/9]"
                       className="group-hover:scale-105 transition-transform duration-500"
                     />
@@ -306,7 +332,7 @@ export default function FeaturedWork() {
               <div className="mb-6 rounded-xl overflow-hidden border border-neutral-200 dark:border-neutral-800">
                 <ImageWithSkeleton
                   src={activeProject.imgUrl}
-                  alt={activeProject.title}
+                  alt={`${activeProject.title} — ${activeProject.tag} case study by StudioAdsPro`}
                   aspectRatio="aspect-[16/9]"
                 />
               </div>

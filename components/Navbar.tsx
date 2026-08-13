@@ -48,7 +48,7 @@ export default function Navbar({ activeSection = 'all', onSelectSection }: Navba
     { name: 'Services', href: '/#services', id: 'services' },
     { name: 'Work', href: '/#work', id: 'work' },
     { name: 'Process', href: '/#process', id: 'process' },
-    { name: 'Pricing', href: '/pricing', id: 'pricing' },
+    { name: 'Pricing', href: '/#pricing', id: 'pricing' },
     { name: 'FAQ', href: '/#faq', id: 'faq' },
     { name: 'Contact', href: '/contact', id: 'contact' },
   ];
@@ -62,16 +62,6 @@ export default function Navbar({ activeSection = 'all', onSelectSection }: Navba
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         router.push('/contact');
-      }
-      return;
-    }
-
-    if (id === 'pricing') {
-      e.preventDefault();
-      if (typeof window !== 'undefined' && window.location.pathname === '/pricing') {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        router.push('/pricing');
       }
       return;
     }
@@ -137,7 +127,7 @@ export default function Navbar({ activeSection = 'all', onSelectSection }: Navba
           <motion.a
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            href="#contact"
+            href="/contact"
             onClick={(e) => handleNavClick('contact', e)}
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-black dark:bg-white text-white dark:text-black font-semibold text-sm hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-all shadow-xs"
           >

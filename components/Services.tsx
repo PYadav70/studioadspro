@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import Script from 'next/script';
 import {
   Code2,
   Layout,
@@ -98,10 +99,33 @@ export default function Services() {
     },
   ];
 
+  // Service catalog structured data — lets Google understand StudioAdsPro's
+  // offerings as discrete, indexable Service entities under the org.
+  const servicesJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: serviceList.map((service, idx) => ({
+      '@type': 'ListItem',
+      position: idx + 1,
+      item: {
+        '@type': 'Service',
+        name: service.title,
+        description: service.description,
+        provider: { '@id': 'https://www.studioadspro.com/#organization' },
+        areaServed: 'Worldwide',
+      },
+    })),
+  };
+
   return (
     <section id="services" className="py-16 sm:py-24 bg-neutral-50/50 dark:bg-neutral-900/40 border-t border-b border-neutral-200 dark:border-neutral-800 transition-colors duration-300">
+      <Script
+        id="ld-services"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesJsonLd) }}
+      />
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-        
+
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -270,7 +294,7 @@ export default function Services() {
 
                     <div className="flex items-center gap-3">
                       <a
-                        href="#contact"
+                        href="/contact"
                         onClick={() => setSelectedService(null)}
                         className="flex-1 py-3 px-5 rounded-full bg-black dark:bg-white text-white dark:text-black text-sm font-semibold text-center hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors shadow-md"
                       >
