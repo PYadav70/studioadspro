@@ -17,20 +17,19 @@ export const metadata: Metadata = {
 
   keywords: [
     'StudioAdsPro',
-    'software development agency',
-    'AI agent development',
-    'mobile app development company',
+    'software development',
+    'AI agents',
+    'mobile apps',
     'Flutter development',
-    'web development agency India',
-    'digital marketing agency',
+    'web development',
+    'digital marketing',
     'performance marketing',
-    'Next.js development',
+    'Next.js',
     'full stack engineering',
-    'UI UX design agency',
-    'Greater Noida software company',
+    'UI UX design',
   ],
 
-  authors: [{ name: 'StudioAdsPro Team', url: 'https://www.studioadspro.com' }],
+  authors: [{ name: 'StudioAdsPro Team' }],
   creator: 'StudioAdsPro',
   publisher: 'StudioAdsPro',
 
@@ -57,10 +56,10 @@ export const metadata: Metadata = {
     siteName: 'StudioAdsPro',
     images: [
       {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'StudioAdsPro — AI, Web & Performance Marketing Agency',
+        url: '/favicon-512x512.png',
+        width: 512,
+        height: 512,
+        alt: 'StudioAdsPro SAP Logo',
       },
     ],
     locale: 'en_US',
@@ -72,7 +71,7 @@ export const metadata: Metadata = {
     title: 'StudioAdsPro — AI, Web & Performance Marketing Agency',
     description:
       'Custom software, AI agents, mobile apps, and performance marketing for modern businesses.',
-    images: ['/og-image.png'],
+    images: ['/favicon-512x512.png'],
     creator: '@studioadspro',
   },
 
@@ -100,62 +99,6 @@ export const viewport: Viewport = {
   ],
 };
 
-// Sitewide structured data: describes the business entity and the website
-// itself so Google can render a Knowledge Panel / sitelinks search box and
-// understand brand, contact, and social profile signals.
-const organizationJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'ProfessionalService',
-  '@id': 'https://www.studioadspro.com/#organization',
-  name: 'StudioAdsPro',
-  alternateName: 'Studio Ads Pro',
-  url: 'https://www.studioadspro.com',
-  logo: 'https://www.studioadspro.com/favicon-512x512.png',
-  image: 'https://www.studioadspro.com/og-image.png',
-  description:
-    'StudioAdsPro is a digital engineering studio designing, building, and scaling custom software, AI agents, mobile apps, and performance marketing for ambitious businesses.',
-  email: 'studioadspro888@gmail.com',
-  telephone: '+91-9876543210',
-  priceRange: '₹₹',
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: 'Greater Noida',
-    addressRegion: 'NCR',
-    addressCountry: 'IN',
-  },
-  areaServed: [
-    { '@type': 'Country', name: 'India' },
-    { '@type': 'Place', name: 'United States' },
-    { '@type': 'Place', name: 'United Kingdom' },
-    { '@type': 'Place', name: 'Middle East' },
-    { '@type': 'Place', name: 'Europe' },
-    { '@type': 'Place', name: 'APAC' },
-  ],
-  contactPoint: [
-    {
-      '@type': 'ContactPoint',
-      contactType: 'sales',
-      email: 'studioadspro888@gmail.com',
-      telephone: '+91-9876543210',
-      areaServed: 'Worldwide',
-      availableLanguage: ['en'],
-    },
-  ],
-  sameAs: ['https://x.com/StudioAdsPro5'],
-};
-
-const websiteJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  '@id': 'https://www.studioadspro.com/#website',
-  url: 'https://www.studioadspro.com',
-  name: 'StudioAdsPro',
-  description:
-    'Custom software, AI agents, mobile apps, and performance marketing for ambitious businesses.',
-  publisher: { '@id': 'https://www.studioadspro.com/#organization' },
-  inLanguage: 'en-US',
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -168,18 +111,6 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <ThemeProvider>{children}</ThemeProvider>
-
-        {/* Structured data: Organization + WebSite (sitewide) */}
-        <Script
-          id="ld-organization"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
-        />
-        <Script
-          id="ld-website"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
-        />
 
         <Script id="meta-pixel" strategy="afterInteractive">
           {`
