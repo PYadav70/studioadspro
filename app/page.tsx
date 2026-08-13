@@ -12,7 +12,7 @@ import MarqueeBanner from '@/components/MarqueeBanner';
 import TeamSection from '@/components/TeamSection';
 import Testimonials from '@/components/Testimonials';
 // import TechStack from '@/components/TechStack';
-import PricingSection from '@/components/PricingSection';
+// import PricingSection from '@/components/PricingSection';
 import FAQSection from '@/components/FAQSection';
 // import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
@@ -39,7 +39,7 @@ export default function Home() {
         <TeamSection />
         <Testimonials />
         {/* <TechStack /> */}
-        <PricingSection />
+        {/* <PricingSection /> */}
         <FAQSection />
         {/* <ContactSection /> */}
       </main>

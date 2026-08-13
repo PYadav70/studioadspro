@@ -37,7 +37,7 @@ export default function Footer() {
             <ul className="space-y-[18px] text-[15px] text-neutral-700 dark:text-neutral-300">
               <li>
                 <a
-                  href="/#services"
+                  href="#about"
                   className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   About
@@ -46,7 +46,7 @@ export default function Footer() {
 
               <li>
                 <a
-                  href="/#team"
+                  href="#team"
                   className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   Team
@@ -55,7 +55,7 @@ export default function Footer() {
 
               <li>
                 <a
-                  href="/contact"
+                  href="#careers"
                   className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   Careers
@@ -64,7 +64,7 @@ export default function Footer() {
 
               <li>
                 <a
-                  href="/contact"
+                  href="#contact"
                   className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   Contact
@@ -82,7 +82,7 @@ export default function Footer() {
             <ul className="space-y-[18px] text-[15px] text-neutral-700 dark:text-neutral-300 whitespace-nowrap">
               <li>
                 <a
-                  href="/#services"
+                  href="#services"
                   className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   Full Stack Development
@@ -91,7 +91,7 @@ export default function Footer() {
 
               <li>
                 <a
-                  href="/#services"
+                  href="#services"
                   className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   AI &amp; Agent Development
@@ -100,7 +100,7 @@ export default function Footer() {
 
               <li>
                 <a
-                  href="/#services"
+                  href="#services"
                   className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   Mobile Apps
@@ -109,7 +109,7 @@ export default function Footer() {
 
               <li>
                 <a
-                  href="/#services"
+                  href="#services"
                   className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   UI/UX Design
@@ -127,7 +127,7 @@ export default function Footer() {
             <ul className="space-y-[18px] text-[15px] text-neutral-700 dark:text-neutral-300">
               <li>
                 <a
-                  href="/#work"
+                  href="#work"
                   className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   Healthcare
@@ -136,7 +136,7 @@ export default function Footer() {
 
               <li>
                 <a
-                  href="/#work"
+                  href="#work"
                   className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   Real Estate
@@ -145,7 +145,7 @@ export default function Footer() {
 
               <li>
                 <a
-                  href="/#work"
+                  href="#work"
                   className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   Logistics
@@ -154,7 +154,7 @@ export default function Footer() {
 
               <li>
                 <a
-                  href="/#work"
+                  href="#work"
                   className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   E-commerce
@@ -172,7 +172,7 @@ export default function Footer() {
             <ul className="space-y-[18px] text-[15px] text-neutral-700 dark:text-neutral-300">
               <li>
                 <a
-                  href="/#work"
+                  href="#case-studies"
                   className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   Case Studies
@@ -181,7 +181,7 @@ export default function Footer() {
 
               <li>
                 <a
-                  href="/#faq"
+                  href="#faq"
                   className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   FAQ
@@ -190,7 +190,7 @@ export default function Footer() {
 
               <li>
                 <a
-                  href="/#pricing"
+                  href="#pricing"
                   className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   Pricing
@@ -199,7 +199,7 @@ export default function Footer() {
 
               <li>
                 <a
-                  href="/contact"
+                  href="#blog"
                   className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   Blog
@@ -209,14 +209,11 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Watermark — decorative wordmark, not a real heading */}
-        <div
-          className="mt-8 sm:mt-12 md:mt-16 h-[80px] sm:h-[140px] md:h-[220px] flex items-end justify-center overflow-hidden select-none pointer-events-none w-full px-2"
-          aria-hidden="true"
-        >
-          <p className="font-black text-neutral-200 dark:text-neutral-900 tracking-tight leading-none text-[clamp(32px,10.5vw,190px)] whitespace-nowrap text-center">
+        {/* Watermark */}
+        <div className="mt-8 sm:mt-12 md:mt-16 h-[80px] sm:h-[140px] md:h-[220px] flex items-end justify-center overflow-hidden select-none pointer-events-none w-full px-2">
+          <h2 className="font-black text-neutral-200 dark:text-neutral-900 tracking-tight leading-none text-[clamp(32px,10.5vw,190px)] whitespace-nowrap text-center">
             StudioAdsPro
-          </p>
+          </h2>
         </div>
 
         {/* Bottom Bar */}

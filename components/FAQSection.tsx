@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { motion } from 'motion/react';
 import { Plus, Minus } from 'lucide-react';
-import Script from 'next/script';
 
 export default function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
@@ -35,31 +34,10 @@ export default function FAQSection() {
     },
   ];
 
-  // FAQPage structured data drives the FAQ rich result in Google Search —
-  // generated directly from the same array rendered below so copy and
-  // schema can never drift out of sync.
-  const faqJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqs.map((faq) => ({
-      '@type': 'Question',
-      name: faq.question,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: faq.answer,
-      },
-    })),
-  };
-
   return (
     <section id="faq" className="py-16 sm:py-24 bg-white dark:bg-neutral-950 transition-colors duration-300">
-      <Script
-        id="ld-faq"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-
+        
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
