@@ -35,9 +35,27 @@ export default function ContactPage() {
           {/* Blueprint Grid Background Pattern */}
           <div className="blueprint-bg absolute inset-0 opacity-60 dark:opacity-20 pointer-events-none" />
 
-          {/* Left 3D Metallic Graphic */}
-          <div className="hidden lg:block absolute left-4 xl:left-12 top-1/2 -translate-y-1/2 pointer-events-none w-48 h-48 xl:w-56 xl:h-56 opacity-90 dark:opacity-80">
-            <svg viewBox="0 0 200 200" className="w-full h-full filter drop-shadow-2xl">
+         {/* Left 3D Metallic Graphic - Movable & Floating Animated */}
+          <motion.div
+            drag
+            dragConstraints={{ left: -150, right: 200, top: -120, bottom: 120 }}
+            dragElastic={0.2}
+            whileHover={{ scale: 1.1, rotate: -10 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ y: 0, rotate: 0 }}
+            animate={{
+              y: [-16, 16, -16],
+              rotate: [-8, 8, -8],
+              scale: [1, 1.05, 1],
+            }}
+            transition={{
+              y: { duration: 5, repeat: Infinity, ease: 'easeInOut' },
+              rotate: { duration: 7, repeat: Infinity, ease: 'easeInOut' },
+              scale: { duration: 6, repeat: Infinity, ease: 'easeInOut' },
+            }}
+            className="hidden lg:block absolute left-4 xl:left-12 top-1/2 -translate-y-1/2 z-20 cursor-grab active:cursor-grabbing w-48 h-48 xl:w-56 xl:h-56 opacity-90 dark:opacity-80 select-none"
+          >
+            <svg viewBox="0 0 200 200" className="w-full h-full filter drop-shadow-2xl pointer-events-none">
               <defs>
                 <linearGradient id="torusGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stopColor="#333333" />
@@ -76,11 +94,29 @@ export default function ContactPage() {
                 <ellipse cx="130" cy="120" rx="25" ry="10" fill="url(#specularGlow)" transform="rotate(15 130 120)" />
               </g>
             </svg>
-          </div>
+          </motion.div>
 
-          {/* Right 3D Metallic Graphic */}
-          <div className="hidden lg:block absolute right-4 xl:right-12 top-1/2 -translate-y-1/2 pointer-events-none w-48 h-48 xl:w-56 xl:h-56 opacity-90 dark:opacity-80">
-            <svg viewBox="0 0 200 200" className="w-full h-full filter drop-shadow-2xl">
+          {/* Right 3D Metallic Graphic - Movable & Floating Animated */}
+          <motion.div
+            drag
+            dragConstraints={{ left: -200, right: 150, top: -120, bottom: 120 }}
+            dragElastic={0.2}
+            whileHover={{ scale: 1.1, rotate: 10 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ y: 0, rotate: 0 }}
+            animate={{
+              y: [16, -16, 16],
+              rotate: [8, -8, 8],
+              scale: [1.05, 1, 1.05],
+            }}
+            transition={{
+              y: { duration: 6, repeat: Infinity, ease: 'easeInOut' },
+              rotate: { duration: 8, repeat: Infinity, ease: 'easeInOut' },
+              scale: { duration: 5.5, repeat: Infinity, ease: 'easeInOut' },
+            }}
+            className="hidden lg:block absolute right-4 xl:right-12 top-1/2 -translate-y-1/2 z-20 cursor-grab active:cursor-grabbing w-48 h-48 xl:w-56 xl:h-56 opacity-90 dark:opacity-80 select-none"
+          >
+            <svg viewBox="0 0 200 200" className="w-full h-full filter drop-shadow-2xl pointer-events-none">
               <defs>
                 <linearGradient id="blobGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stopColor="#444444" />
@@ -101,7 +137,8 @@ export default function ContactPage() {
                 <circle cx="130" cy="110" r="14" fill="url(#specularGlow)" />
               </g>
             </svg>
-          </div>
+          </motion.div>
+
 
           {/* Center Heading Content */}
           <div className="max-w-[800px] mx-auto px-4 sm:px-6 relative z-10 text-center">
