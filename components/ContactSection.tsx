@@ -93,7 +93,7 @@ export default function ContactSection() {
                 </div>
                 <div>
                   <strong className="block text-sm font-semibold text-black dark:text-white">Mobile / Phone</strong>
-                  <span className="text-sm text-neutral-600 dark:text-neutral-400 font-mono">+91 98765 43210</span>
+                  <span className="text-sm text-neutral-600 dark:text-neutral-400 font-mono">+919151781802</span>
                 </div>
               </a>
 

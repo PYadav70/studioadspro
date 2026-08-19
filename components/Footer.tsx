@@ -64,7 +64,7 @@ export default function Footer() {
 
               <li>
                 <a
-                  href="#contact"
+                  href="/contact"
                   className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   Contact
@@ -190,7 +190,7 @@ export default function Footer() {
 
               <li>
                 <a
-                  href="#pricing"
+                  href="/pricing"
                   className="hover:text-black dark:hover:text-white hover:underline underline-offset-4 transition-colors"
                 >
                   Pricing

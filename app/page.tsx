@@ -10,7 +10,7 @@ import Industries from '@/components/Industries';
 import FeaturedWork from '@/components/FeaturedWork';
 import MarqueeBanner from '@/components/MarqueeBanner';
 import TeamSection from '@/components/TeamSection';
-import Testimonials from '@/components/Testimonials';
+// import Testimonials from '@/components/Testimonials';
 // import TechStack from '@/components/TechStack';
 // import PricingSection from '@/components/PricingSection';
 import FAQSection from '@/components/FAQSection';
@@ -37,7 +37,7 @@ export default function Home() {
         <FeaturedWork />
         <MarqueeBanner />
         <TeamSection />
-        <Testimonials />
+        {/* <Testimonials /> */}
         {/* <TechStack /> */}
         {/* <PricingSection /> */}
         <FAQSection />
