@@ -51,10 +51,21 @@ export default function Navbar({ activeSection = 'all', onSelectSection }: Navba
     { name: 'Pricing', href: '/pricing', id: 'pricing' },
     { name: 'FAQ', href: '/#faq', id: 'faq' },
     { name: 'Contact', href: '/contact', id: 'contact' },
+    // { name: 'Admin', href: '/admin', id: 'admin' },
   ];
 
   const handleNavClick = (id: string, e: React.MouseEvent) => {
     setMobileMenuOpen(false);
+
+    if (id === 'admin') {
+      e.preventDefault();
+      if (typeof window !== 'undefined' && window.location.pathname === '/admin') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        router.push('/admin');
+      }
+      return;
+    }
 
     if (id === 'contact') {
       e.preventDefault();
